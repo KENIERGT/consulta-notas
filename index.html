@@ -66,13 +66,13 @@
           if (cod && cod.trim() === codigo) {
             const nombre = row.c[0]?.v;
             const sesion = row.c[2]?.v;
-            const mat = row.c[3]?.v;
-            const lyl = row.c[4]?.v;
-            const ingles = row.c[5]?.v;
-            const quimica = row.c[6]?.v;
-            const geo = row.c[7]?.v;
-            const ddm = row.c[8]?.v;
-            const promedio = row.c[9]?.v;
+            const mat = Number(row.c[3]?.v).toFixed(1);
+            const lyl = Number(row.c[4]?.v).toFixed(1);
+            const ingles = Number(row.c[5]?.v).toFixed(1);
+            const quimica = Number(row.c[6]?.v).toFixed(1);
+            const geo = Number(row.c[7]?.v).toFixed(1);
+            const ddm = Number(row.c[8]?.v).toFixed(1);
+            const promedio = Number(row.c[9]?.v).toFixed(1);
 
             resultado.innerHTML = `
               <h5>👤 ${nombre}</h5>
