@@ -1,11 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Bachillerato Comunitario de JYA</title>
-  <title>III Cuatrimestre</title>
   <title>Consulta de Notas</title>
+   <h6>Bachillerato Comunitario de JYA - III Cuatrimestre</h6>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -22,12 +20,12 @@
       border-radius: 5px;
     }
     button {
-      background-color: #Ffffff;
+      background-color: #005fa3;
       color: white;
       cursor: pointer;
     }
     button:hover {
-      background-color: #005fa3;
+      background-color: #004080;
     }
     #resultado {
       margin-top: 20px;
@@ -46,8 +44,8 @@
   <div id="resultado"></div>
 
   <script>
-    const SHEET_ID = "1TnSKjSRX1vwBD1EjA9yRJw0sp8ezyhskQ_WXpKbqpA8"; // ID del documento
-    const SHEET_GID = "1285346484"; // GID de la hoja "NOTAS"
+    const SHEET_ID = "1TnSKjSRX1vwBD1EjA9yRJw0sp8ezyhskQ_WXpKbqpA8";
+    const SHEET_GID = "1285346484";
 
     async function buscarNotas() {
       const codigo = document.getElementById('codigo').value.trim();
@@ -64,7 +62,7 @@
 
         let encontrado = false;
         for (const row of rows) {
-          const cod = row.c[1]?.v; // Columna del código
+          const cod = row.c[1]?.v;
           if (cod && cod.trim() === codigo) {
             const nombre = row.c[0]?.v;
             const sesion = row.c[2]?.v;
@@ -78,7 +76,7 @@
 
             resultado.innerHTML = `
               <h3>👤 ${nombre}</h3>
-              <h6>👤 ${escuela}</h3>
+              <h6>🏫Instituto Rosa Montoya Flores</h6>
               <p><strong>Sesión:</strong> ${sesion}</p>
               <p>📘 Matemática: ${mat}</p>
               <p>📚 Lengua y Literatura: ${lyl}</p>
@@ -105,3 +103,4 @@
   </script>
 </body>
 </html>
+
