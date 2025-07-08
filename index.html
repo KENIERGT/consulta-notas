@@ -65,7 +65,7 @@
         function formatoNota(valor) {
           const nota = Number(valor);
           const color = nota <= 59 ? 'red' : 'black';
-          return `<span style="color: ${color};">${nota.toFixed(1)} ${icono}</span>`;
+          return `<span style="color: ${color};">${nota.toFixed(1)}</span>`;
         }
 
         for (const row of rows) {
@@ -109,4 +109,5 @@
   </script>
 </body>
 </html>
+
 
