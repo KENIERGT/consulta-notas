@@ -2,8 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Consulta de Notas</title>
-   <h1>Bachillerato Comunitario de JYA - III Cuatrimestre</h1>
+  <title>Consulta de Notas - Bachillerato Comunitario de JYA - III Cuatrimestre</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -37,6 +36,7 @@
   </style>
 </head>
 <body>
+  <h1>🏫 Bachillerato Comunitario de JYA - III Cuatrimestre</h1>
   <h2>🔍 Consulta de Notas</h2>
   <input type="text" id="codigo" placeholder="Ingresa tu código de estudiante">
   <button onclick="buscarNotas()">Consultar</button>
@@ -61,29 +61,37 @@
         const rows = json.table.rows;
 
         let encontrado = false;
+
+        function formatoNota(valor) {
+          const nota = Number(valor);
+          const color = nota <= 59 ? 'red' : 'black';
+          const icono = nota <= 59 ? '❌' : '✅';
+          return `<span style="color: ${color};">${nota.toFixed(1)} ${icono}</span>`;
+        }
+
         for (const row of rows) {
           const cod = row.c[1]?.v;
           if (cod && cod.trim() === codigo) {
             const nombre = row.c[0]?.v;
             const sesion = row.c[2]?.v;
-            const mat = Number(row.c[3]?.v).toFixed(1);
-            const lyl = Number(row.c[4]?.v).toFixed(1);
-            const ingles = Number(row.c[5]?.v).toFixed(1);
-            const quimica = Number(row.c[6]?.v).toFixed(1);
-            const geo = Number(row.c[7]?.v).toFixed(1);
-            const ddm = Number(row.c[8]?.v).toFixed(1);
-            const promedio = Number(row.c[9]?.v).toFixed(1);
+            const mat = row.c[3]?.v;
+            const lyl = row.c[4]?.v;
+            const ingles = row.c[5]?.v;
+            const quimica = row.c[6]?.v;
+            const geo = row.c[7]?.v;
+            const ddm = row.c[8]?.v;
+            const promedio = row.c[9]?.v;
 
             resultado.innerHTML = `
               <h5>👤 ${nombre}</h5>
-              <p><strong>Sesión:</strong> ${sesion}</p>
-              <p>📘 Matemática: ${mat}</p>
-              <p>📚 Lengua y Literatura: ${lyl}</p>
-              <p>🔤 Inglés: ${ingles}</p>
-              <p>🧪 Química: ${quimica}</p>
-              <p>🗺️ Geografía: ${geo}</p>
-              <p>📐 DDM: ${ddm}</p>
-              <p><strong>📊 Promedio:</strong> ${promedio}</p>
+              <p><strong>Sección:</strong> ${sesion}</p>
+              <p>📘 Matemática: ${formatoNota(mat)}</p>
+              <p>📚 Lengua y Literatura: ${formatoNota(lyl)}</p>
+              <p>🔤 Inglés: ${formatoNota(ingles)}</p>
+              <p>🧪 Química: ${formatoNota(quimica)}</p>
+              <p>🗺️ Geografía: ${formatoNota(geo)}</p>
+              <p>📐 DDM: ${formatoNota(ddm)}</p>
+              <p><strong>📊 Promedio:</strong> ${formatoNota(promedio)}</p>
             `;
             encontrado = true;
             break;
