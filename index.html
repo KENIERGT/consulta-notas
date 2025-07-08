@@ -5,9 +5,35 @@
   <meta charset="UTF-8">
   <title>Consulta de Notas</title>
   <style>
-    body { font-family: Arial, sans-serif; background-color: #00aae4; padding: 20px; }
-    input, button { padding: 10px; font-size: 16px; width: 300px; margin: 10px 0; }
-    #resultado { margin-top: 20px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 8px rgba(0,0,0,0.1); }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #00aae4;
+      padding: 20px;
+      color: #333;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+      width: 300px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 5px;
+    }
+    button {
+      background-color: #0077cc;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #005fa3;
+    }
+    #resultado {
+      margin-top: 20px;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
   </style>
 </head>
 <body>
@@ -18,8 +44,8 @@
   <div id="resultado"></div>
 
   <script>
-    const SHEET_ID = "2PACX-1vSgjfHVowMx1WuOQdMONIS3DlnV9ySf1Kpg1lvZGQwVOXVs1i9yzq-ETHKSUfrMBtX0tEMGPymY8XdI";
-    const SHEET_GID = "1285346484";
+    const SHEET_ID = "1TnSKjSRX1vwBD1EjA9yRJw0sp8ezyhskQ_WXpKbqpA8"; // ID del documento
+    const SHEET_GID = "1285346484"; // GID de la hoja "NOTAS"
 
     async function buscarNotas() {
       const codigo = document.getElementById('codigo').value.trim();
@@ -27,6 +53,7 @@
       resultado.innerHTML = "Buscando...";
 
       const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&gid=${SHEET_GID}`;
+
       try {
         const res = await fetch(url);
         const text = await res.text();
@@ -35,7 +62,7 @@
 
         let encontrado = false;
         for (const row of rows) {
-          const cod = row.c[1]?.v;
+          const cod = row.c[1]?.v; // Columna del código
           if (cod && cod.trim() === codigo) {
             const nombre = row.c[0]?.v;
             const sesion = row.c[2]?.v;
@@ -51,7 +78,7 @@
               <h3>👤 ${nombre}</h3>
               <p><strong>Sesión:</strong> ${sesion}</p>
               <p>📘 Matemática: ${mat}</p>
-              <p>📚 LyL: ${lyl}</p>
+              <p>📚 Lengua y Literatura: ${lyl}</p>
               <p>🔤 Inglés: ${ingles}</p>
               <p>🧪 Química: ${quimica}</p>
               <p>🗺️ Geografía: ${geo}</p>
@@ -68,7 +95,7 @@
         }
 
       } catch (error) {
-        resultado.innerHTML = "⚠️ Error al conectar con la hoja.";
+        resultado.innerHTML = "⚠️ Error al conectar con la hoja. Revisa si el documento es público.";
         console.error(error);
       }
     }
