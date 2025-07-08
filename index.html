@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Consulta de Notas</title>
+  <style>
+    body { font-family: Arial, sans-serif; background-color: #f5f5f5; padding: 20px; }
+    input, button { padding: 10px; font-size: 16px; width: 300px; margin: 10px 0; }
+    #resultado { margin-top: 20px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 8px rgba(0,0,0,0.1); }
+  </style>
+</head>
+<body>
+  <h2>🔍 Consulta de Notas</h2>
+  <input type="text" id="codigo" placeholder="Ingresa tu código de estudiante">
+  <button onclick="buscarNotas()">Consultar</button>
+
+  <div id="resultado"></div>
+
+  <script>
+    const SHEET_ID = "2PACX-1vSgjfHVowMx1WuOQdMONIS3DlnV9ySf1Kpg1lvZGQwVOXVs1i9yzq-ETHKSUfrMBtX0tEMGPymY8XdI";
+    const SHEET_GID = "1285346484";
+
+    async function buscarNotas() {
+      const codigo = document.getElementById('codigo').value.trim();
+      const resultado = document.getElementById('resultado');
+      resultado.innerHTML = "Buscando...";
+
+      const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&gid=${SHEET_GID}`;
+      try {
+        const res = await fetch(url);
+        const text = await res.text();
+        const json = JSON.parse(text.substr(47).slice(0, -2));
+        const rows = json.table.rows;
+
+        let encontrado = false;
+        for (const row of rows) {
+          const cod = row.c[1]?.v;
+          if (cod && cod.trim() === codigo) {
+            const nombre = row.c[0]?.v;
+            const sesion = row.c[2]?.v;
+            const mat = row.c[3]?.v;
+            const lyl = row.c[4]?.v;
+            const ingles = row.c[5]?.v;
+            const quimica = row.c[6]?.v;
+            const geo = row.c[7]?.v;
+            const ddm = row.c[8]?.v;
+            const promedio = row.c[9]?.v;
+
+            resultado.innerHTML = `
+              <h3>👤 ${nombre}</h3>
+              <p><strong>Sesión:</strong> ${sesion}</p>
+              <p>📘 Matemática: ${mat}</p>
+              <p>📚 LyL: ${lyl}</p>
+              <p>🔤 Inglés: ${ingles}</p>
+              <p>🧪 Química: ${quimica}</p>
+              <p>🗺️ Geografía: ${geo}</p>
+              <p>📐 DDM: ${ddm}</p>
+              <p><strong>📊 Promedio:</strong> ${promedio}</p>
+            `;
+            encontrado = true;
+            break;
+          }
+        }
+
+        if (!encontrado) {
+          resultado.innerHTML = "❌ Código no encontrado. Verifica e intenta de nuevo.";
+        }
+
+      } catch (error) {
+        resultado.innerHTML = "⚠️ Error al conectar con la hoja.";
+        console.error(error);
+      }
+    }
+  </script>
+</body>
+</html>
