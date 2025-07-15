@@ -2,25 +2,29 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Consulta de Notas - Bachillerato Comunitario de JYA - III Cuatrimestre</title>
+  <title>Bachillerato Comunitario de JYA</title>
+
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWrQx4Wm88UkrwZSWK2QLKWuCjsNvFm2cWrQ&s" alt="150px" width="200px">
+  <img src="logo.png/logo1.png" height="100px" width="100px">
+
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #00aae4;
-      padding: 20px;
-      color: #333;
+      background-color: #ffffff;
+      padding:65px;
+      color: #000000;
     }
     input, button {
-      padding: 10px;
-      font-size: 16px;
-      width: 300px;
-      margin: 10px 0;
-      border: none;
-      border-radius: 5px;
+      padding:16px;
+      font-size: 15px;
+      width: 150px;
+      margin:10px;
+      border:none;
+      border-radius: 20px;
     }
     button {
-      background-color: #005fa3;
-      color: white;
+      background-color: #6aff00;
+      color: rgb(0, 0, 0);
       cursor: pointer;
     }
     button:hover {
@@ -31,13 +35,22 @@
       background: white;
       padding: 20px;
       border-radius: 8px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      box-shadow: 0 0 8px rgba(255, 6, 6, 0.1);
     }
   </style>
 </head>
 <body>
-  <h1>🏫 Bachillerato Comunitario de JYA - III Cuatrimestre</h1>
-  <h2>🔍 Consulta de Notas</h2>
+  <h1>Bachillerato Comunitario de JYA</h1> 
+<style>
+    body {
+      font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+      box-shadow: #052443;
+      color: #000000;
+    }
+
+</style>
+  <h3>Instituto Rosa Montoya Flores</h3>
+  <h1>🔍 Consulta de Notas </h1>
   <input type="text" id="codigo" placeholder="Ingrese su código">
   <button onclick="buscarNotas()">Consultar</button>
 
@@ -82,14 +95,14 @@
             const promedio = row.c[9]?.v;
 
             resultado.innerHTML = `
-              <h5>👤 ${nombre}</h5>
+              <h2>👤 ${nombre}</h2>
               <p><strong>Sección:</strong> ${sesion}</p>
               <p>➗ Matemática: ${formatoNota(mat)}</p>
               <p>📚 Lengua y Literatura: ${formatoNota(lyl)}</p>
               <p>🔤 Inglés: ${formatoNota(ingles)}</p>
               <p>🧪 Química: ${formatoNota(quimica)}</p>
               <p>🗺️ Geografía: ${formatoNota(geo)}</p>
-              <p>👩 DDM: ${formatoNota(ddm)}</p>
+              <p>👩 Derecho y Dignidad de la Mujer: ${formatoNota(ddm)}</p>
               <p><strong>📊 Promedio:</strong> ${formatoNota(promedio)}</p>
             `;
             encontrado = true;
@@ -109,5 +122,7 @@
   </script>
 </body>
 </html>
+
+
 
 
