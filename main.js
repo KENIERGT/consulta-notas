@@ -12,10 +12,10 @@ const html = `
     <thead>
       <tr>
         <th>Materia</th>
-        <th>I Cuatrimestre</th>
-        <th>II Cuatrimestre</th>
-        <th>III Cuatrimestre</th>
-        <th>IV Cuatrimestre</th>
+        <th>I Cuatr</th>
+        <th>II Cuatr</th>
+        <th>III Cuatr</th>
+        <th>IV Cuatr</th>
       </tr>
     </thead>
     <tbody>
