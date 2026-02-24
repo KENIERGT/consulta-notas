@@ -114,8 +114,7 @@ async function buscarNotas() {
               <td style="border: 1px solid #1a73e8; text-align: center;">${f(estudiante.c[8]?.v)}</td>
               <td style="border: 1px solid #1a73e8; text-align: center;">${f(estudiante.c[14]?.v)}</td>
               <td style="border: 1px solid #1a73e8; text-align: center;">${f(estudiante.c[20]?.v)}</td>
-              <td style="border: 1px solid #1a73e8; text-align: center; color: #1a73e8; font-size: 1.6rem;">
-                ${f(estudiante.c[26]?.v)}
+              <td style="border: 1px solid #1a73e8; text-align: center;">${f(estudiante.c[26]?.v)}
               </td>
             </tr>
           </tbody>
@@ -130,3 +129,4 @@ async function buscarNotas() {
     resultado.innerHTML = "⚠️ Error crítico al conectar con la base de datos.";
   }
 }
+
