@@ -1,76 +1,119 @@
-// Función para manejar el formato y el color de las notas
-    const formatNota = (valor) => {
+const SHEET_ID = "15EJszt2CU2bN5xVPyGnkfT0DVFraDJuMImtuIraJyZk";
+const SHEET_GID = "1138138025";
+
+async function buscarNotas() {
+  const codigo = document.getElementById("codigo").value.trim();
+  const resultado = document.getElementById("resultado");
+  
+  if (!codigo) {
+    resultado.innerHTML = "<p style='color: red;'>⚠️ Por favor, ingresa un código.</p>";
+    return;
+  }
+
+  resultado.innerHTML = "🔎 Buscando...";
+
+  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&gid=${SHEET_GID}`;
+
+  try {
+    const res = await fetch(url);
+    const text = await res.text();
+    const json = JSON.parse(text.substr(47).slice(0, -2));
+    const rows = json.table.rows;
+
+    let estudiante = null;
+
+    // Buscar en Columna C (índice 2)
+    for (let row of rows) {
+      const codFila = row.c[2]?.v;
+      if (codFila && codFila.toString().trim().toUpperCase() === codigo.toUpperCase()) {
+        estudiante = row;
+        break;
+      }
+    }
+
+    if (!estudiante) {
+      resultado.innerHTML = "❌ Código no encontrado.";
+      return;
+    }
+
+    // FUNCIÓN DE COLOR: Aplica rojo si es <= 59.4
+    const f = (valor) => {
       if (valor === null || valor === undefined || valor === "" || valor === 0) return "-";
       
-      // Convertimos a número para comparar, manejando posibles comas por puntos
-      const notaNum = parseFloat(valor.toString().replace(',', '.'));
+      // Limpiar el valor por si viene con comas
+      const num = parseFloat(valor.toString().replace(',', '.'));
       
-      // Si la nota es menor o igual a 59.4, la ponemos en rojo
-      if (notaNum <= 59.4) {
-        return `<span style="color: #e74c3c; font-weight: bold;">${valor}</span>`;
+      if (!isNaN(num) && num <= 59.4) {
+        // El !important es clave para ganarle al style.css
+        return `<span style="color: #ff0000 !important; font-weight: bold !important;">${valor}</span>`;
       }
       return valor;
     };
 
+    // Construcción del HTML
     let html = `
-      <div style="margin-top: 20px; padding: 15px; background-color: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-        <h2 style="font-size: 1.8rem; color: #1a73e8; margin-bottom: 20px;">
+      <div style="text-align: left; margin-top: 30px; font-family: sans-serif;">
+        <h2 style="font-size: 2.5rem; color: #1a73e8; margin-bottom: 10px; border-bottom: 2px solid #1a73e8; display: inline-block;">
           📋 Notas de: ${estudiante.c[1]?.v}
         </h2>
         
-        <table class="notas-table" style="width: 100%; border-collapse: collapse;">
+        <table style="width: 100%; border-collapse: collapse; margin-top: 20px; background: white;">
           <thead>
-            <tr style="border-bottom: 2px solid #eee; text-align: left;">
-              <th style="padding: 10px;">Materia</th>
-              <th>I Cuat.</th>
-              <th>II Cuat.</th>
-              <th>III Cuat.</th>
-              <th>IV Cuat.</th>
+            <tr style="background-color: #f8f9fa;">
+              <th style="border: 1px solid #ddd; padding: 12px;">Materia</th>
+              <th style="border: 1px solid #ddd; padding: 12px;">I Cuat.</th>
+              <th style="border: 1px solid #ddd; padding: 12px;">II Cuat.</th>
+              <th style="border: 1px solid #ddd; padding: 12px;">III Cuat.</th>
+              <th style="border: 1px solid #ddd; padding: 12px;">IV Cuat.</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td style="padding: 10px;"><strong>Lengua y Literatura</strong></td>
-              <td>${formatNota(estudiante.c[3]?.v)}</td>
-              <td>${formatNota(estudiante.c[9]?.v)}</td>
-              <td>${formatNota(estudiante.c[15]?.v)}</td>
-              <td>${formatNota(estudiante.c[21]?.v)}</td>
+              <td style="border: 1px solid #ddd; padding: 10px;"><strong>Lengua y Literatura</strong></td>
+              <td style="border: 1px solid #ddd; text-align: center;">${f(estudiante.c[3]?.v)}</td>
+              <td style="border: 1px solid #ddd; text-align: center;">${f(estudiante.c[9]?.v)}</td>
+              <td style="border: 1px solid #ddd; text-align: center;">${f(estudiante.c[15]?.v)}</td>
+              <td style="border: 1px solid #ddd; text-align: center;">${f(estudiante.c[21]?.v)}</td>
             </tr>
             <tr>
-              <td style="padding: 10px;"><strong>Matemática</strong></td>
-              <td>${formatNota(estudiante.c[4]?.v)}</td>
-              <td>${formatNota(estudiante.c[10]?.v)}</td>
-              <td>${formatNota(estudiante.c[16]?.v)}</td>
-              <td>${formatNota(estudiante.c[22]?.v)}</td>
+              <td style="border: 1px solid #ddd; padding: 10px;"><strong>Matemática</strong></td>
+              <td style="border: 1px solid #ddd; text-align: center;">${f(estudiante.c[4]?.v)}</td>
+              <td style="border: 1px solid #ddd; text-align: center;">${f(estudiante.c[10]?.v)}</td>
+              <td style="border: 1px solid #ddd; text-align: center;">${f(estudiante.c[16]?.v)}</td>
+              <td style="border: 1px solid #ddd; text-align: center;">${f(estudiante.c[22]?.v)}</td>
             </tr>
             <tr>
-              <td style="padding: 10px;"><strong>Geografía / Historia</strong></td>
-              <td>${formatNota(estudiante.c[5]?.v)}</td>
-              <td>${formatNota(estudiante.c[11]?.v)}</td>
-              <td>${formatNota(estudiante.c[17]?.v)}</td>
-              <td>${formatNota(estudiante.c[23]?.v)}</td>
+              <td style="border: 1px solid #ddd; padding: 10px;"><strong>Geografía / Historia</strong></td>
+              <td style="border: 1px solid #ddd; text-align: center;">${f(estudiante.c[5]?.v)}</td>
+              <td style="border: 1px solid #ddd; text-align: center;">${f(estudiante.c[11]?.v)}</td>
+              <td style="border: 1px solid #ddd; text-align: center;">${f(estudiante.c[17]?.v)}</td>
+              <td style="border: 1px solid #ddd; text-align: center;">${f(estudiante.c[23]?.v)}</td>
             </tr>
             <tr>
-              <td style="padding: 10px;"><strong>Ciencias / Química / Física</strong></td>
-              <td>${formatNota(estudiante.c[6]?.v)}</td>
-              <td>${formatNota(estudiante.c[12]?.v)}</td>
-              <td>${formatNota(estudiante.c[18]?.v)}</td>
-              <td>${formatNota(estudiante.c[24]?.v)}</td>
+              <td style="border: 1px solid #ddd; padding: 10px;"><strong>Ciencias / Química / Física</strong></td>
+              <td style="border: 1px solid #ddd; text-align: center;">${f(estudiante.c[6]?.v)}</td>
+              <td style="border: 1px solid #ddd; text-align: center;">${f(estudiante.c[12]?.v)}</td>
+              <td style="border: 1px solid #ddd; text-align: center;">${f(estudiante.c[18]?.v)}</td>
+              <td style="border: 1px solid #ddd; text-align: center;">${f(estudiante.c[24]?.v)}</td>
             </tr>
             <tr>
-              <td style="padding: 10px;"><strong>Inglés</strong></td>
-              <td>${formatNota(estudiante.c[7]?.v)}</td>
-              <td>${formatNota(estudiante.c[13]?.v)}</td>
-              <td>${formatNota(estudiante.c[19]?.v)}</td>
-              <td>${formatNota(estudiante.c[25]?.v)}</td>
+              <td style="border: 1px solid #ddd; padding: 10px;"><strong>Inglés</strong></td>
+              <td style="border: 1px solid #ddd; text-align: center;">${f(estudiante.c[7]?.v)}</td>
+              <td style="border: 1px solid #ddd; text-align: center;">${f(estudiante.c[13]?.v)}</td>
+              <td style="border: 1px solid #ddd; text-align: center;">${f(estudiante.c[19]?.v)}</td>
+              <td style="border: 1px solid #ddd; text-align: center;">${f(estudiante.c[25]?.v)}</td>
             </tr>
             
-            <tr style="border-top: 3px solid #1a73e8;">
-              <td style="padding: 20px 10px 10px 10px;"><strong>PROMEDIO</strong></td>
-              <td style="padding-top: 20px;"><strong>${formatNota(estudiante.c[8]?.v)}</strong></td>
-              <td style="padding-top: 20px;"><strong>${formatNota(estudiante.c[14]?.v)}</strong></td>
-              <td style="padding-top: 20px;"><strong>${formatNota(estudiante.c[20]?.v)}</strong></td>
-              <td style="padding-top: 20px; font-size: 1.2rem;"><strong>${formatNota(estudiante.c[26]?.v)}</strong></td>
+            <tr><td colspan="5" style="height: 30px; border: none;"></td></tr>
+            
+            <tr style="background-color: #e8f0fe; font-size: 1.2rem;">
+              <td style="border: 2px solid #1a73e8; padding: 15px;"><strong>PROMEDIO CUATRIMESTRAL</strong></td>
+              <td style="border: 2px solid #1a73e8; text-align: center;"><strong>${f(estudiante.c[8]?.v)}</strong></td>
+              <td style="border: 2px solid #1a73e8; text-align: center;"><strong>${f(estudiante.c[14]?.v)}</strong></td>
+              <td style="border: 2px solid #1a73e8; text-align: center;"><strong>${f(estudiante.c[20]?.v)}</strong></td>
+              <td style="border: 2px solid #1a73e8; text-align: center; color: #1a73e8; font-size: 1.5rem;">
+                <strong>${f(estudiante.c[26]?.v)}</strong>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -78,3 +121,9 @@
     `;
 
     resultado.innerHTML = html;
+
+  } catch (error) {
+    console.error(error);
+    resultado.innerHTML = "⚠️ Error al cargar los datos.";
+  }
+}
