@@ -16,7 +16,7 @@ async function buscarNotas() {
 
     let estudiante = null;
 
-    // Buscar fila donde coincida la cédula
+    // Buscar fila donde coincida la cédula (Columna C = índice 2)
     for (let row of rows) {
       const codFila = row.c[2]?.v;
       if (codFila && codFila.toString().trim() === codigo) {
@@ -30,61 +30,66 @@ async function buscarNotas() {
       return;
     }
 
-    // Construir la tabla en HTML con todos los cuatrimestres
-    const html = `
+    // Función interna para formatear las notas (si es 0 o null poner guion)
+    const f = (valor) => {
+        return (valor === null || valor === undefined || valor === 0) ? "-" : valor;
+    };
+
+    // Generar la tabla con el mapeo exacto de tu Imagen 4
+    let html = `
       <h2>📋 Notas de: ${estudiante.c[1]?.v}</h2>
       <table class="notas-table">
         <thead>
           <tr>
             <th>Materia</th>
-            <th>I Cuatr</th>
-            <th>II Cuatr</th>
-            <th>III Cuatr</th>
-            <th>IV Cuatr</th>
+            <th>I Cuat.</th>
+            <th>II Cuat.</th>
+            <th>III Cuat.</th>
+            <th>IV Cuat.</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>Lengua y Literatura</td>
-            <td>${estudiante.c[3]?.v || "-"}</td>
-            <td>${estudiante.c[8]?.v || "-"}</td>
-            <td>${estudiante.c[13]?.v || "-"}</td>
-            <td>${estudiante.c[18]?.v || "-"}</td>
+            <td>${f(estudiante.c[3]?.v)}</td>
+            <td>${f(estudiante.c[9]?.v)}</td>
+            <td>${f(estudiante.c[15]?.v)}</td>
+            <td>${f(estudiante.c[21]?.v)}</td>
           </tr>
           <tr>
             <td>Matemática</td>
-            <td>${estudiante.c[4]?.v || "-"}</td>
-            <td>${estudiante.c[9]?.v || "-"}</td>
-            <td>${estudiante.c[14]?.v || "-"}</td>
-            <td>${estudiante.c[19]?.v || "-"}</td>
+            <td>${f(estudiante.c[4]?.v)}</td>
+            <td>${f(estudiante.c[10]?.v)}</td>
+            <td>${f(estudiante.c[16]?.v)}</td>
+            <td>${f(estudiante.c[22]?.v)}</td>
           </tr>
           <tr>
-            <td>Geografía</td>
-            <td>${estudiante.c[5]?.v || "-"}</td>
-            <td>${estudiante.c[10]?.v || "-"}</td>
-            <td>${estudiante.c[15]?.v || "-"}</td>
-            <td>${estudiante.c[20]?.v || "-"}</td>
+            <td>Geografía / Historia</td>
+            <td>${f(estudiante.c[5]?.v)}</td>
+            <td>${f(estudiante.c[11]?.v)}</td>
+            <td>${f(estudiante.c[17]?.v)}</td>
+            <td>${f(estudiante.c[23]?.v)}</td> 
           </tr>
           <tr>
-            <td>Ciencias / Química</td>
-            <td>${estudiante.c[6]?.v || "-"}</td>
-            <td>${estudiante.c[11]?.v || "-"}</td>
-            <td>${estudiante.c[16]?.v || "-"}</td>
-            <td>${estudiante.c[21]?.v || "-"}</td>
+            <td>Ciencias / Química / Física</td>
+            <td>${f(estudiante.c[6]?.v)}</td>
+            <td>${f(estudiante.c[12]?.v)}</td>
+            <td>${f(estudiante.c[18]?.v)}</td>
+            <td>${f(estudiante.c[24]?.v)}</td> 
           </tr>
           <tr>
             <td>Inglés</td>
-            <td>${estudiante.c[7]?.v || "-"}</td>
-            <td>${estudiante.c[12]?.v || "-"}</td>
-            <td>${estudiante.c[17]?.v || "-"}</td>
-            <td>${estudiante.c[22]?.v || "-"}</td>
+            <td>${f(estudiante.c[7]?.v)}</td>
+            <td>${f(estudiante.c[13]?.v)}</td>
+            <td>${f(estudiante.c[19]?.v)}</td>
+            <td>${f(estudiante.c[25]?.v)}</td>
           </tr>
-          <tr>
-            <td><strong>Promedio</strong></td>
-            <td><strong>${estudiante.c[8]?.v || "-"}</strong></td>
-            <td><strong>${estudiante.c[14]?.v || "-"}</strong></td>
-            <td><strong>${estudiante.c[20]?.v || "-"}</strong></td>
-            <td><strong>${estudiante.c[26]?.v || "-"}</strong></td>
+          <tr style="background-color: #f2f2f2; font-weight: bold;">
+            <td>Promedio</td>
+            <td>${f(estudiante.c[8]?.v)}</td>
+            <td>${f(estudiante.c[14]?.v)}</td>
+            <td>${f(estudiante.c[20]?.v)}</td>
+            <td>${f(estudiante.c[26]?.v)}</td>
           </tr>
         </tbody>
       </table>
@@ -97,4 +102,5 @@ async function buscarNotas() {
     console.error(error);
   }
 }
+
 
