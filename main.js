@@ -15,10 +15,26 @@ async function buscarNotas() {
   const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&gid=${SHEET_GID}`;
 
   try {
-    const res = await fetch(url);
-    const text = await res.text();
-    const json = JSON.parse(text.substr(47).slice(0, -2));
-    const rows = json.table.rows;
+const res = await fetch(url);
+
+if (!res.ok) {
+  throw new Error("No se pudo acceder a la hoja");
+}
+
+const text = await res.text();
+
+const json = JSON.parse(
+  text.substring(
+    text.indexOf("{"),
+    text.lastIndexOf("}") + 1
+  )
+);
+
+if (!json.table || !json.table.rows) {
+  throw new Error("Formato inesperado de Google Sheets");
+}
+
+const rows = json.table.rows;
 
     let estudiante = null;
 
@@ -142,6 +158,7 @@ async function buscarNotas() {
     resultado.innerHTML = "⚠️ Error crítico al conectar con la base de datos.";
   }
 }
+
 
 
 
