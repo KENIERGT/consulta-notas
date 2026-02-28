@@ -58,9 +58,7 @@ async function buscarNotas() {
         
         <h2 style="font-size: 2.8rem; color: #1a73e2; margin-bottom: 12px; border-bottom: 6px solid #1a73e8; display: inline-block; font-weight: 800;">
           📋 ${estudiante.c[1]?.v}
-        </h2>
-
-        <h2 style="font-size: 2.8rem; color: #1a73e2; margin-bottom: 12px; border-bottom: 6px solid #1a73e8; display: inline-block; font-weight: 800;">
+          style="font-size: 2.8rem; color: #1a73e2; margin-bottom: 12px; border-bottom: 6px solid #1a73e8; display: inline-block; font-weight: 800;">
           📋 ${seccion.c[39]?.v}
         </h2>
 
@@ -146,6 +144,7 @@ async function buscarNotas() {
     resultado.innerHTML = "⚠️ Error crítico al conectar con la base de datos.";
   }
 }
+
 
 
 
