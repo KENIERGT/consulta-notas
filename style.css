@@ -15,8 +15,8 @@ img {
 }
 
 .logo-colegio {
-  width: 40px;
-  height: 50px;
+  width: 100px;
+  height: 130px;
 }
 h1 {
   color: #1a73e8;
@@ -137,6 +137,7 @@ h1 {
   .notas-table { font-size: 12px; }
   #resultado h2 { font-size: 1.5rem !important; }
 }
+
 
 
 
