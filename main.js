@@ -68,6 +68,8 @@ async function buscarNotas() {
               <th style="border: 1px solid #ccc; padding: 12px; text-align: center;">II Cuat.</th>
               <th style="border: 1px solid #ccc; padding: 12px; text-align: center;">III Cuat.</th>
               <th style="border: 1px solid #ccc; padding: 12px; text-align: center;">IV Cuat.</th>
+              <th style="border: 1px solid #ccc; padding: 12px; text-align: center;">V Cuat.</th>
+              <th style="border: 1px solid #ccc; padding: 12px; text-align: center;">VI Cuat.</th>
             </tr>
           </thead>
           <tbody>
@@ -77,6 +79,8 @@ async function buscarNotas() {
               <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[9]?.v)}</td>
               <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[15]?.v)}</td>
               <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[21]?.v)}</td>
+              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[27]?.v)}</td>
+              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[33]?.v)}</td>
             </tr>
             <tr>
               <td style="border: 1px solid #ccc; padding: 10px;"><strong>Matemática</strong></td>
@@ -84,6 +88,8 @@ async function buscarNotas() {
               <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[10]?.v)}</td>
               <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[16]?.v)}</td>
               <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[22]?.v)}</td>
+              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[28]?.v)}</td>
+              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[34]?.v)}</td>
             </tr>
             <tr>
               <td style="border: 1px solid #ccc; padding: 10px;"><strong>Geografía / Historia</strong></td>
@@ -91,6 +97,8 @@ async function buscarNotas() {
               <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[11]?.v)}</td>
               <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[17]?.v)}</td>
               <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[23]?.v)}</td>
+              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[29]?.v)}</td>
+              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[35]?.v)}</td>
             </tr>
             <tr>
               <td style="border: 1px solid #ccc; padding: 10px;"><strong>Ciencias / Química / Física</strong></td>
@@ -98,6 +106,8 @@ async function buscarNotas() {
               <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[12]?.v)}</td>
               <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[18]?.v)}</td>
               <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[24]?.v)}</td>
+              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[30]?.v)}</td>
+              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[36]?.v)}</td>
             </tr>
             <tr>
               <td style="border: 1px solid #ccc; padding: 10px;"><strong>Inglés</strong></td>
@@ -105,6 +115,8 @@ async function buscarNotas() {
               <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[13]?.v)}</td>
               <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[19]?.v)}</td>
               <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[25]?.v)}</td>
+              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[31]?.v)}</td>
+              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[37]?.v)}</td>
             </tr>
             
             <tr><td colspan="5" style="height: 25px; border: none;"></td></tr>
@@ -129,4 +141,5 @@ async function buscarNotas() {
     resultado.innerHTML = "⚠️ Error crítico al conectar con la base de datos.";
   }
 }
+
 
