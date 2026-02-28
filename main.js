@@ -6,170 +6,123 @@ async function buscarNotas() {
   const resultado = document.getElementById("resultado");
 
   if (!codigo) {
-    resultado.innerHTML = "<p style='color:red;font-weight:bold;'>⚠️ Por favor, ingresa un código.</p>";
+    resultado.innerHTML = "<p style='color:red;font-weight:bold;'>⚠️ Ingresa un código.</p>";
     return;
   }
 
   resultado.innerHTML = "🔎 Buscando en el registro...";
 
-  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&tq=select *&gid=${SHEET_GID}`;
+  // 🔥 USAMOS EXPORT CSV (NO FALLA EN GITHUB)
+  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${SHEET_GID}`;
 
   try {
     const res = await fetch(url);
-
-    if (!res.ok) {
-      throw new Error("No se pudo acceder a la hoja");
-    }
-
     const text = await res.text();
 
-    const json = JSON.parse(
-      text.substring(
-        text.indexOf("{"),
-        text.lastIndexOf("}") + 1
-      )
-    );
-
-    if (!json.table || !json.table.rows) {
-      throw new Error("Formato inesperado de Google Sheets");
-    }
-
-    const rows = json.table.rows;
+    const filas = text.split("\n").map(f => f.split(","));
 
     let estudiante = null;
 
-    // Buscar por CÉDULA (columna C → índice 2)
-    for (let row of rows) {
-      if (!row.c) continue;
-
-      const codFila = row.c[2]?.v;
-
-      if (
-        codFila &&
-        codFila.toString().trim().toUpperCase() === codigo.toUpperCase()
-      ) {
-        estudiante = row;
+    // Buscar por cédula (columna C = índice 2)
+    for (let i = 1; i < filas.length; i++) {
+      if (filas[i][2] && filas[i][2].trim().toUpperCase() === codigo.toUpperCase()) {
+        estudiante = filas[i];
         break;
       }
     }
 
     if (!estudiante) {
-      resultado.innerHTML = "❌ Código no encontrado. Revisa los datos.";
+      resultado.innerHTML = "❌ Código no encontrado.";
       return;
     }
 
-    // Función segura para obtener columnas
-    const safe = (fila, i) => fila?.c?.[i]?.v ?? "-";
+    const safe = (i) => estudiante[i] ? estudiante[i] : "-";
 
-    // Función de formato y color rojo (<= 59.4)
     const f = (valor) => {
-      if (
-        valor === null ||
-        valor === undefined ||
-        valor === "" ||
-        valor === 0 ||
-        valor === "-"
-      ) {
-        return "-";
-      }
-
-      const num = parseFloat(valor.toString().replace(",", "."));
-
+      if (!valor || valor === "-") return "-";
+      const num = parseFloat(valor.replace(",", "."));
       if (!isNaN(num) && num <= 59.4) {
-        return `<strong style="color:#ff0000;">${valor}</strong>`;
+        return `<strong style="color:red;">${valor}</strong>`;
       }
-
       return valor;
     };
 
     let html = `
       <div style="margin-top:30px;font-family:sans-serif;text-align:left;">
         
-        <h2 style="font-size:2.5rem;color:#1a73e2;margin-bottom:5px;border-bottom:5px solid #1a73e8;display:inline-block;font-weight:800;">
-          📋 ${safe(estudiante, 1)}
+        <h2 style="font-size:2.5rem;color:#1a73e2;border-bottom:5px solid #1a73e8;display:inline-block;">
+          📋 ${safe(1)}
         </h2>
 
-        <div style="margin-top:10px;font-size:1.1rem;">
-          <strong>🆔 Cédula:</strong> ${safe(estudiante, 2)}
+        <div style="margin-top:10px;">
+          <strong>🆔 Cédula:</strong> ${safe(2)}
         </div>
 
-        <div style="margin-top:5px;font-size:1.1rem;">
-          <strong>🏫 Sección:</strong> ${safe(estudiante, 39)}
+        <div style="margin-top:5px;">
+          <strong>🏫 Sección:</strong> ${safe(39)}
         </div>
 
-        <table style="width:100%;border-collapse:collapse;margin-top:20px;background:white;box-shadow:0 4px 10px rgba(0,0,0,0.1);">
-          <thead>
-            <tr style="background-color:#f8f9fa;">
-              <th style="border:1px solid #ccc;padding:12px;text-align:left;">Materia</th>
-              <th style="border:1px solid #ccc;padding:12px;text-align:center;">I Cuat.</th>
-              <th style="border:1px solid #ccc;padding:12px;text-align:center;">II Cuat.</th>
-              <th style="border:1px solid #ccc;padding:12px;text-align:center;">III Cuat.</th>
-              <th style="border:1px solid #ccc;padding:12px;text-align:center;">IV Cuat.</th>
-              <th style="border:1px solid #ccc;padding:12px;text-align:center;">V Cuat.</th>
-              <th style="border:1px solid #ccc;padding:12px;text-align:center;">VI Cuat.</th>
-            </tr>
-          </thead>
+        <table style="width:100%;border-collapse:collapse;margin-top:20px;background:white;">
           <tbody>
             <tr>
-              <td style="border:1px solid #ccc;padding:10px;"><strong>Lengua y Literatura</strong></td>
-              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,3))}</td>
-              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,9))}</td>
-              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,15))}</td>
-              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,21))}</td>
-              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,27))}</td>
-              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,33))}</td>
+              <td><strong>Lengua y Literatura</strong></td>
+              <td>${f(safe(3))}</td>
+              <td>${f(safe(9))}</td>
+              <td>${f(safe(15))}</td>
+              <td>${f(safe(21))}</td>
+              <td>${f(safe(27))}</td>
+              <td>${f(safe(33))}</td>
             </tr>
 
             <tr>
-              <td style="border:1px solid #ccc;padding:10px;"><strong>Matemática</strong></td>
-              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,4))}</td>
-              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,10))}</td>
-              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,16))}</td>
-              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,22))}</td>
-              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,28))}</td>
-              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,34))}</td>
+              <td><strong>Matemática</strong></td>
+              <td>${f(safe(4))}</td>
+              <td>${f(safe(10))}</td>
+              <td>${f(safe(16))}</td>
+              <td>${f(safe(22))}</td>
+              <td>${f(safe(28))}</td>
+              <td>${f(safe(34))}</td>
             </tr>
 
             <tr>
-              <td style="border:1px solid #ccc;padding:10px;"><strong>Geografía / Historia</strong></td>
-              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,5))}</td>
-              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,11))}</td>
-              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,17))}</td>
-              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,23))}</td>
-              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,29))}</td>
-              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,35))}</td>
+              <td><strong>Geografía / Historia</strong></td>
+              <td>${f(safe(5))}</td>
+              <td>${f(safe(11))}</td>
+              <td>${f(safe(17))}</td>
+              <td>${f(safe(23))}</td>
+              <td>${f(safe(29))}</td>
+              <td>${f(safe(35))}</td>
             </tr>
 
             <tr>
-              <td style="border:1px solid #ccc;padding:10px;"><strong>Ciencias / Química / Física</strong></td>
-              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,6))}</td>
-              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,12))}</td>
-              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,18))}</td>
-              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,24))}</td>
-              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,30))}</td>
-              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,36))}</td>
+              <td><strong>Ciencias / Química / Física</strong></td>
+              <td>${f(safe(6))}</td>
+              <td>${f(safe(12))}</td>
+              <td>${f(safe(18))}</td>
+              <td>${f(safe(24))}</td>
+              <td>${f(safe(30))}</td>
+              <td>${f(safe(36))}</td>
             </tr>
 
             <tr>
-              <td style="border:1px solid #ccc;padding:10px;"><strong>Inglés</strong></td>
-              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,7))}</td>
-              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,13))}</td>
-              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,19))}</td>
-              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,25))}</td>
-              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,31))}</td>
-              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,37))}</td>
+              <td><strong>Inglés</strong></td>
+              <td>${f(safe(7))}</td>
+              <td>${f(safe(13))}</td>
+              <td>${f(safe(19))}</td>
+              <td>${f(safe(25))}</td>
+              <td>${f(safe(31))}</td>
+              <td>${f(safe(37))}</td>
             </tr>
 
-            <tr style="background-color:#e8f0fe;font-weight:bold;border:2px solid #1a73e8;">
-              <td style="border:1px solid #1a73e8;padding:15px;">PROMEDIO GENERAL</td>
-              <td style="border:1px solid #1a73e8;text-align:center;">${f(safe(estudiante,8))}</td>
-              <td style="border:1px solid #1a73e8;text-align:center;">${f(safe(estudiante,14))}</td>
-              <td style="border:1px solid #1a73e8;text-align:center;">${f(safe(estudiante,20))}</td>
-              <td style="border:1px solid #1a73e8;text-align:center;">${f(safe(estudiante,26))}</td>
-              <td style="border:1px solid #1a73e8;text-align:center;">${f(safe(estudiante,32))}</td>
-              <td style="border:1px solid #1a73e8;text-align:center;">${f(safe(estudiante,38))}</td>
+            <tr style="font-weight:bold;background:#e8f0fe;">
+              <td>PROMEDIO GENERAL</td>
+              <td>${f(safe(8))}</td>
+              <td>${f(safe(14))}</td>
+              <td>${f(safe(20))}</td>
+              <td>${f(safe(26))}</td>
+              <td>${f(safe(32))}</td>
+              <td>${f(safe(38))}</td>
             </tr>
-
           </tbody>
         </table>
       </div>
