@@ -13,7 +13,8 @@ img {
   margin: 10px;
   vertical-align: middle;
 }
-.logo-mined{
+
+.logo-mined {
   width: 10px;
   height: 15px;
 }
@@ -136,6 +137,7 @@ h1 {
   .notas-table { font-size: 12px; }
   #resultado h2 { font-size: 1.5rem !important; }
 }
+
 
 
 
