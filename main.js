@@ -4,44 +4,50 @@ const SHEET_GID = "1138138025";
 async function buscarNotas() {
   const codigo = document.getElementById("codigo").value.trim();
   const resultado = document.getElementById("resultado");
-  
+
   if (!codigo) {
-    resultado.innerHTML = "<p style='color: red; font-weight: bold;'>⚠️ Por favor, ingresa un código.</p>";
+    resultado.innerHTML = "<p style='color:red;font-weight:bold;'>⚠️ Por favor, ingresa un código.</p>";
     return;
   }
 
   resultado.innerHTML = "🔎 Buscando en el registro...";
 
-const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&tq=select *&gid=${SHEET_GID}`;
+  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&tq=select *&gid=${SHEET_GID}`;
 
   try {
-const res = await fetch(url);
+    const res = await fetch(url);
 
-if (!res.ok) {
-  throw new Error("No se pudo acceder a la hoja");
-}
+    if (!res.ok) {
+      throw new Error("No se pudo acceder a la hoja");
+    }
 
-const text = await res.text();
+    const text = await res.text();
 
-const json = JSON.parse(
-  text.substring(
-    text.indexOf("{"),
-    text.lastIndexOf("}") + 1
-  )
-);
+    const json = JSON.parse(
+      text.substring(
+        text.indexOf("{"),
+        text.lastIndexOf("}") + 1
+      )
+    );
 
-if (!json.table || !json.table.rows) {
-  throw new Error("Formato inesperado de Google Sheets");
-}
+    if (!json.table || !json.table.rows) {
+      throw new Error("Formato inesperado de Google Sheets");
+    }
 
-const rows = json.table.rows;
+    const rows = json.table.rows;
 
     let estudiante = null;
 
-    // Buscar en Columna C (índice 2)
+    // Buscar por CÉDULA (columna C → índice 2)
     for (let row of rows) {
+      if (!row.c) continue;
+
       const codFila = row.c[2]?.v;
-      if (codFila && codFila.toString().trim().toUpperCase() === codigo.toUpperCase()) {
+
+      if (
+        codFila &&
+        codFila.toString().trim().toUpperCase() === codigo.toUpperCase()
+      ) {
         estudiante = row;
         break;
       }
@@ -52,108 +58,118 @@ const rows = json.table.rows;
       return;
     }
 
-    // FUNCIÓN DE FORMATO Y COLOR ROJO (<= 59.4)
+    // Función segura para obtener columnas
+    const safe = (fila, i) => fila?.c?.[i]?.v ?? "-";
+
+    // Función de formato y color rojo (<= 59.4)
     const f = (valor) => {
-      if (valor === null || valor === undefined || valor === "" || valor === 0 || valor === "-") {
+      if (
+        valor === null ||
+        valor === undefined ||
+        valor === "" ||
+        valor === 0 ||
+        valor === "-"
+      ) {
         return "-";
       }
-      
-      // Convertimos a número manejando comas decimales
-      const num = parseFloat(valor.toString().replace(',', '.'));
-      
-      // Si la nota es menor o igual a 59.4, forzamos el color rojo
+
+      const num = parseFloat(valor.toString().replace(",", "."));
+
       if (!isNaN(num) && num <= 59.4) {
-        return `<strong style="color: #ff0000 !important; display: inline-block;">${valor}</strong>`;
+        return `<strong style="color:#ff0000;">${valor}</strong>`;
       }
+
       return valor;
     };
 
-    // CONSTRUCCIÓN DEL HTML COMPLETO
     let html = `
-      <div style="margin-top: 30px; font-family: sans-serif; text-align: left;">
+      <div style="margin-top:30px;font-family:sans-serif;text-align:left;">
         
-      <h2 style="font-size: 2.8rem; color: #1a73e2; margin-bottom: 5px; border-bottom: 6px solid #1a73e8; display: inline-block; font-weight: 800;">
-        📋 ${safe(estudiante, 1)}
-      </h2>
-      
-      <div style="margin-top:10px; font-size:1.1rem;">
-        <strong>🆔 Cédula:</strong> ${safe(estudiante, 2)}
-      </div>
-      
-      <div style="margin-top:5px; font-size:1.1rem;">
-        <strong>🏫 Sección:</strong> ${safe(estudiante, 39)}
-      </div>
+        <h2 style="font-size:2.5rem;color:#1a73e2;margin-bottom:5px;border-bottom:5px solid #1a73e8;display:inline-block;font-weight:800;">
+          📋 ${safe(estudiante, 1)}
+        </h2>
 
-        <table style="width: 100%; border-collapse: collapse; margin-top: 20px; background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+        <div style="margin-top:10px;font-size:1.1rem;">
+          <strong>🆔 Cédula:</strong> ${safe(estudiante, 2)}
+        </div>
+
+        <div style="margin-top:5px;font-size:1.1rem;">
+          <strong>🏫 Sección:</strong> ${safe(estudiante, 39)}
+        </div>
+
+        <table style="width:100%;border-collapse:collapse;margin-top:20px;background:white;box-shadow:0 4px 10px rgba(0,0,0,0.1);">
           <thead>
-            <tr style="background-color: #f8f9fa;">
-              <th style="border: 1px solid #ccc; padding: 12px; text-align: left;">Materia</th>
-              <th style="border: 1px solid #ccc; padding: 12px; text-align: center;">I Cuat.</th>
-              <th style="border: 1px solid #ccc; padding: 12px; text-align: center;">II Cuat.</th>
-              <th style="border: 1px solid #ccc; padding: 12px; text-align: center;">III Cuat.</th>
-              <th style="border: 1px solid #ccc; padding: 12px; text-align: center;">IV Cuat.</th>
-              <th style="border: 1px solid #ccc; padding: 12px; text-align: center;">V Cuat.</th>
-              <th style="border: 1px solid #ccc; padding: 12px; text-align: center;">VI Cuat.</th>
+            <tr style="background-color:#f8f9fa;">
+              <th style="border:1px solid #ccc;padding:12px;text-align:left;">Materia</th>
+              <th style="border:1px solid #ccc;padding:12px;text-align:center;">I Cuat.</th>
+              <th style="border:1px solid #ccc;padding:12px;text-align:center;">II Cuat.</th>
+              <th style="border:1px solid #ccc;padding:12px;text-align:center;">III Cuat.</th>
+              <th style="border:1px solid #ccc;padding:12px;text-align:center;">IV Cuat.</th>
+              <th style="border:1px solid #ccc;padding:12px;text-align:center;">V Cuat.</th>
+              <th style="border:1px solid #ccc;padding:12px;text-align:center;">VI Cuat.</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td style="border: 1px solid #ccc; padding: 10px;"><strong>Lengua y Literatura</strong></td>
-              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[3]?.v)}</td>
-              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[9]?.v)}</td>
-              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[15]?.v)}</td>
-              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[21]?.v)}</td>
-              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[27]?.v)}</td>
-              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[33]?.v)}</td>
+              <td style="border:1px solid #ccc;padding:10px;"><strong>Lengua y Literatura</strong></td>
+              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,3))}</td>
+              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,9))}</td>
+              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,15))}</td>
+              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,21))}</td>
+              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,27))}</td>
+              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,33))}</td>
             </tr>
+
             <tr>
-              <td style="border: 1px solid #ccc; padding: 10px;"><strong>Matemática</strong></td>
-              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[4]?.v)}</td>
-              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[10]?.v)}</td>
-              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[16]?.v)}</td>
-              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[22]?.v)}</td>
-              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[28]?.v)}</td>
-              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[34]?.v)}</td>
+              <td style="border:1px solid #ccc;padding:10px;"><strong>Matemática</strong></td>
+              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,4))}</td>
+              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,10))}</td>
+              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,16))}</td>
+              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,22))}</td>
+              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,28))}</td>
+              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,34))}</td>
             </tr>
+
             <tr>
-              <td style="border: 1px solid #ccc; padding: 10px;"><strong>Geografía / Historia</strong></td>
-              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[5]?.v)}</td>
-              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[11]?.v)}</td>
-              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[17]?.v)}</td>
-              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[23]?.v)}</td>
-              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[29]?.v)}</td>
-              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[35]?.v)}</td>
+              <td style="border:1px solid #ccc;padding:10px;"><strong>Geografía / Historia</strong></td>
+              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,5))}</td>
+              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,11))}</td>
+              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,17))}</td>
+              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,23))}</td>
+              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,29))}</td>
+              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,35))}</td>
             </tr>
+
             <tr>
-              <td style="border: 1px solid #ccc; padding: 10px;"><strong>Ciencias / Química / Física</strong></td>
-              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[6]?.v)}</td>
-              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[12]?.v)}</td>
-              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[18]?.v)}</td>
-              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[24]?.v)}</td>
-              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[30]?.v)}</td>
-              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[36]?.v)}</td>
+              <td style="border:1px solid #ccc;padding:10px;"><strong>Ciencias / Química / Física</strong></td>
+              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,6))}</td>
+              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,12))}</td>
+              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,18))}</td>
+              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,24))}</td>
+              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,30))}</td>
+              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,36))}</td>
             </tr>
+
             <tr>
-              <td style="border: 1px solid #ccc; padding: 10px;"><strong>Inglés</strong></td>
-              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[7]?.v)}</td>
-              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[13]?.v)}</td>
-              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[19]?.v)}</td>
-              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[25]?.v)}</td>
-              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[31]?.v)}</td>
-              <td style="border: 1px solid #ccc; text-align: center;">${f(estudiante.c[37]?.v)}</td>
+              <td style="border:1px solid #ccc;padding:10px;"><strong>Inglés</strong></td>
+              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,7))}</td>
+              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,13))}</td>
+              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,19))}</td>
+              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,25))}</td>
+              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,31))}</td>
+              <td style="border:1px solid #ccc;text-align:center;">${f(safe(estudiante,37))}</td>
             </tr>
-            
-            <tr><td colspan="5" style="height: 25px; border: none;"></td></tr>
-            
-            <tr style="background-color: #e8f0fe; font-weight: bold; border: 2px solid #1a73e8;">
-              <td style="border: 1px solid #1a73e8; padding: 15px;">PROMEDIO GENERAL</td>
-              <td style="border: 1px solid #1a73e8; text-align: center;">${f(estudiante.c[8]?.v)}</td>
-              <td style="border: 1px solid #1a73e8; text-align: center;">${f(estudiante.c[14]?.v)}</td>
-              <td style="border: 1px solid #1a73e8; text-align: center;">${f(estudiante.c[20]?.v)}</td>
-              <td style="border: 1px solid #1a73e8; text-align: center;">${f(estudiante.c[26]?.v)}</td>
-              <td style="border: 1px solid #1a73e8; text-align: center;">${f(estudiante.c[32]?.v)}</td>
-              <td style="border: 1px solid #1a73e8; text-align: center;">${f(estudiante.c[38]?.v)}</td>
+
+            <tr style="background-color:#e8f0fe;font-weight:bold;border:2px solid #1a73e8;">
+              <td style="border:1px solid #1a73e8;padding:15px;">PROMEDIO GENERAL</td>
+              <td style="border:1px solid #1a73e8;text-align:center;">${f(safe(estudiante,8))}</td>
+              <td style="border:1px solid #1a73e8;text-align:center;">${f(safe(estudiante,14))}</td>
+              <td style="border:1px solid #1a73e8;text-align:center;">${f(safe(estudiante,20))}</td>
+              <td style="border:1px solid #1a73e8;text-align:center;">${f(safe(estudiante,26))}</td>
+              <td style="border:1px solid #1a73e8;text-align:center;">${f(safe(estudiante,32))}</td>
+              <td style="border:1px solid #1a73e8;text-align:center;">${f(safe(estudiante,38))}</td>
             </tr>
+
           </tbody>
         </table>
       </div>
@@ -166,13 +182,3 @@ const rows = json.table.rows;
     resultado.innerHTML = "⚠️ Error crítico al conectar con la base de datos.";
   }
 }
-
-
-
-
-
-
-
-
-
-
