@@ -12,7 +12,7 @@ async function buscarNotas() {
 
   resultado.innerHTML = "🔎 Buscando en el registro...";
 
-  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&gid=${SHEET_GID}`;
+const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&tq=select *&gid=${SHEET_GID}`;
 
   try {
 const res = await fetch(url);
@@ -166,6 +166,7 @@ const rows = json.table.rows;
     resultado.innerHTML = "⚠️ Error crítico al conectar con la base de datos.";
   }
 }
+
 
 
 
