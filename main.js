@@ -72,9 +72,17 @@ const rows = json.table.rows;
     let html = `
       <div style="margin-top: 30px; font-family: sans-serif; text-align: left;">
         
-        <h2 style="font-size: 2.8rem; color: #1a73e2; margin-bottom: 12px; border-bottom: 6px solid #1a73e8; display: inline-block; font-weight: 800;">
-          📋 ${estudiante.c[1]?.v}
-        </h2>
+      <h2 style="font-size: 2.8rem; color: #1a73e2; margin-bottom: 5px; border-bottom: 6px solid #1a73e8; display: inline-block; font-weight: 800;">
+        📋 ${safe(estudiante, 1)}
+      </h2>
+      
+      <div style="margin-top:10px; font-size:1.1rem;">
+        <strong>🆔 Cédula:</strong> ${safe(estudiante, 2)}
+      </div>
+      
+      <div style="margin-top:5px; font-size:1.1rem;">
+        <strong>🏫 Sección:</strong> ${safe(estudiante, 39)}
+      </div>
 
         <table style="width: 100%; border-collapse: collapse; margin-top: 20px; background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
           <thead>
@@ -158,6 +166,7 @@ const rows = json.table.rows;
     resultado.innerHTML = "⚠️ Error crítico al conectar con la base de datos.";
   }
 }
+
 
 
 
