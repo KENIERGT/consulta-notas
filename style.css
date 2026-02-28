@@ -13,12 +13,6 @@ img {
   margin: 10px;
   vertical-align: middle;
 }
-img2 {
-  margin: 10px;
-  vertical-align: middle;
-  width: 20px;
-  height:20px;
-}
 
 h1 {
   color: #1a73e8;
@@ -139,6 +133,7 @@ h1 {
   .notas-table { font-size: 12px; }
   #resultado h2 { font-size: 1.5rem !important; }
 }
+
 
 
 
