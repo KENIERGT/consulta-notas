@@ -62,69 +62,84 @@ async function buscarNotas() {
           <strong>🏫 Sección:</strong> ${safe(39)}
         </div>
 
-        <table style="width:100%;border-collapse:collapse;margin-top:20px;background:white;">
-          <tbody>
-            <tr>
-              <td><strong>Lengua y Literatura</strong></td>
-              <td>${f(safe(3))}</td>
-              <td>${f(safe(9))}</td>
-              <td>${f(safe(15))}</td>
-              <td>${f(safe(21))}</td>
-              <td>${f(safe(27))}</td>
-              <td>${f(safe(33))}</td>
-            </tr>
+<table style="width:100%;border-collapse:collapse;margin-top:25px;background:white;box-shadow:0 4px 10px rgba(0,0,0,0.1);">
 
-            <tr>
-              <td><strong>Matemática</strong></td>
-              <td>${f(safe(4))}</td>
-              <td>${f(safe(10))}</td>
-              <td>${f(safe(16))}</td>
-              <td>${f(safe(22))}</td>
-              <td>${f(safe(28))}</td>
-              <td>${f(safe(34))}</td>
-            </tr>
+  <thead>
+    <tr style="background:#1a73e8;color:white;">
+      <th style="padding:12px;border:1px solid #ccc;text-align:left;">Materia</th>
+      <th style="padding:12px;border:1px solid #ccc;">I Cuat.</th>
+      <th style="padding:12px;border:1px solid #ccc;">II Cuat.</th>
+      <th style="padding:12px;border:1px solid #ccc;">III Cuat.</th>
+      <th style="padding:12px;border:1px solid #ccc;">IV Cuat.</th>
+      <th style="padding:12px;border:1px solid #ccc;">V Cuat.</th>
+      <th style="padding:12px;border:1px solid #ccc;">VI Cuat.</th>
+    </tr>
+  </thead>
 
-            <tr>
-              <td><strong>Geografía / Historia</strong></td>
-              <td>${f(safe(5))}</td>
-              <td>${f(safe(11))}</td>
-              <td>${f(safe(17))}</td>
-              <td>${f(safe(23))}</td>
-              <td>${f(safe(29))}</td>
-              <td>${f(safe(35))}</td>
-            </tr>
+  <tbody>
 
-            <tr>
-              <td><strong>Ciencias / Química / Física</strong></td>
-              <td>${f(safe(6))}</td>
-              <td>${f(safe(12))}</td>
-              <td>${f(safe(18))}</td>
-              <td>${f(safe(24))}</td>
-              <td>${f(safe(30))}</td>
-              <td>${f(safe(36))}</td>
-            </tr>
+    <tr>
+      <td style="padding:10px;border:1px solid #ccc;"><strong>Lengua y Literatura</strong></td>
+      <td style="text-align:center;border:1px solid #ccc;">${f(safe(3))}</td>
+      <td style="text-align:center;border:1px solid #ccc;">${f(safe(9))}</td>
+      <td style="text-align:center;border:1px solid #ccc;">${f(safe(15))}</td>
+      <td style="text-align:center;border:1px solid #ccc;">${f(safe(21))}</td>
+      <td style="text-align:center;border:1px solid #ccc;">${f(safe(27))}</td>
+      <td style="text-align:center;border:1px solid #ccc;">${f(safe(33))}</td>
+    </tr>
 
-            <tr>
-              <td><strong>Inglés</strong></td>
-              <td>${f(safe(7))}</td>
-              <td>${f(safe(13))}</td>
-              <td>${f(safe(19))}</td>
-              <td>${f(safe(25))}</td>
-              <td>${f(safe(31))}</td>
-              <td>${f(safe(37))}</td>
-            </tr>
+    <tr>
+      <td style="padding:10px;border:1px solid #ccc;"><strong>Matemática</strong></td>
+      <td style="text-align:center;border:1px solid #ccc;">${f(safe(4))}</td>
+      <td style="text-align:center;border:1px solid #ccc;">${f(safe(10))}</td>
+      <td style="text-align:center;border:1px solid #ccc;">${f(safe(16))}</td>
+      <td style="text-align:center;border:1px solid #ccc;">${f(safe(22))}</td>
+      <td style="text-align:center;border:1px solid #ccc;">${f(safe(28))}</td>
+      <td style="text-align:center;border:1px solid #ccc;">${f(safe(34))}</td>
+    </tr>
 
-            <tr style="font-weight:bold;background:#e8f0fe;">
-              <td>PROMEDIO GENERAL</td>
-              <td>${f(safe(8))}</td>
-              <td>${f(safe(14))}</td>
-              <td>${f(safe(20))}</td>
-              <td>${f(safe(26))}</td>
-              <td>${f(safe(32))}</td>
-              <td>${f(safe(38))}</td>
-            </tr>
-          </tbody>
-        </table>
+    <tr>
+      <td style="padding:10px;border:1px solid #ccc;"><strong>Geografía / Historia</strong></td>
+      <td style="text-align:center;border:1px solid #ccc;">${f(safe(5))}</td>
+      <td style="text-align:center;border:1px solid #ccc;">${f(safe(11))}</td>
+      <td style="text-align:center;border:1px solid #ccc;">${f(safe(17))}</td>
+      <td style="text-align:center;border:1px solid #ccc;">${f(safe(23))}</td>
+      <td style="text-align:center;border:1px solid #ccc;">${f(safe(29))}</td>
+      <td style="text-align:center;border:1px solid #ccc;">${f(safe(35))}</td>
+    </tr>
+
+    <tr>
+      <td style="padding:10px;border:1px solid #ccc;"><strong>Ciencias / Química / Física</strong></td>
+      <td style="text-align:center;border:1px solid #ccc;">${f(safe(6))}</td>
+      <td style="text-align:center;border:1px solid #ccc;">${f(safe(12))}</td>
+      <td style="text-align:center;border:1px solid #ccc;">${f(safe(18))}</td>
+      <td style="text-align:center;border:1px solid #ccc;">${f(safe(24))}</td>
+      <td style="text-align:center;border:1px solid #ccc;">${f(safe(30))}</td>
+      <td style="text-align:center;border:1px solid #ccc;">${f(safe(36))}</td>
+    </tr>
+
+    <tr>
+      <td style="padding:10px;border:1px solid #ccc;"><strong>Inglés</strong></td>
+      <td style="text-align:center;border:1px solid #ccc;">${f(safe(7))}</td>
+      <td style="text-align:center;border:1px solid #ccc;">${f(safe(13))}</td>
+      <td style="text-align:center;border:1px solid #ccc;">${f(safe(19))}</td>
+      <td style="text-align:center;border:1px solid #ccc;">${f(safe(25))}</td>
+      <td style="text-align:center;border:1px solid #ccc;">${f(safe(31))}</td>
+      <td style="text-align:center;border:1px solid #ccc;">${f(safe(37))}</td>
+    </tr>
+
+    <tr style="background:#e8f0fe;font-weight:bold;">
+      <td style="padding:12px;border:1px solid #1a73e8;">PROMEDIO GENERAL</td>
+      <td style="text-align:center;border:1px solid #1a73e8;">${f(safe(8))}</td>
+      <td style="text-align:center;border:1px solid #1a73e8;">${f(safe(14))}</td>
+      <td style="text-align:center;border:1px solid #1a73e8;">${f(safe(20))}</td>
+      <td style="text-align:center;border:1px solid #1a73e8;">${f(safe(26))}</td>
+      <td style="text-align:center;border:1px solid #1a73e8;">${f(safe(32))}</td>
+      <td style="text-align:center;border:1px solid #1a73e8;">${f(safe(38))}</td>
+    </tr>
+
+  </tbody>
+</table>
       </div>
     `;
 
@@ -135,3 +150,4 @@ async function buscarNotas() {
     resultado.innerHTML = "⚠️ Error crítico al conectar con la base de datos.";
   }
 }
+
