@@ -56,7 +56,7 @@ async function buscarNotas() {
     let html = `
       <div style="margin-top: 30px; font-family: sans-serif; text-align: left;">
         
-        <h2 style="font-size: 2.8rem; color: #1a73e8; margin-bottom: 20px; border-bottom: 4px solid #1a73e8; display: inline-block; font-weight: 800;">
+        <h2 style="font-size: 2.8rem; color: #1a73e2; margin-bottom: 12px; border-bottom: 6px solid #1a73e8; display: inline-block; font-weight: 800;">
           📋 ${estudiante.c[1]?.v}
         </h2>
         
@@ -126,8 +126,9 @@ async function buscarNotas() {
               <td style="border: 1px solid #1a73e8; text-align: center;">${f(estudiante.c[8]?.v)}</td>
               <td style="border: 1px solid #1a73e8; text-align: center;">${f(estudiante.c[14]?.v)}</td>
               <td style="border: 1px solid #1a73e8; text-align: center;">${f(estudiante.c[20]?.v)}</td>
-              <td style="border: 1px solid #1a73e8; text-align: center;">${f(estudiante.c[26]?.v)}
-              </td>
+              <td style="border: 1px solid #1a73e8; text-align: center;">${f(estudiante.c[26]?.v)}</td>
+              <td style="border: 1px solid #1a73e8; text-align: center;">${f(estudiante.c[32]?.v)}</td>
+              <td style="border: 1px solid #1a73e8; text-align: center;">${f(estudiante.c[38]?.v)}</td>
             </tr>
           </tbody>
         </table>
@@ -141,5 +142,6 @@ async function buscarNotas() {
     resultado.innerHTML = "⚠️ Error crítico al conectar con la base de datos.";
   }
 }
+
 
 
