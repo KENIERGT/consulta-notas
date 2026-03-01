@@ -132,16 +132,16 @@ h1 {
 }
 
 /* Responsive */
-@media (max-width: 600px) {
-  body { padding: 20px; }
-  .notas-table { font-size: 18px; }
-  #resultado h2 { font-size: 1.5rem !important; }
+@media (max-width:500px){
+  body { padding: 4px;}
+  .notas-table { font-size: 2px; }
+  #resultado h2 { font-size: 25rem !important; }
 } 
 /* CAJA */
 .main-container {
-  width:100px;  /* ocupa casi toda la pantalla */
-  max-width: 10%;    /* ancho máximo grande */
-  margin: 80px auto;       /* centrado */
+  width:90%; /* ocupa casi toda la pantalla */
+  max-width: 100px; /* ancho máximo grande */
+  margin: 0px auto;       /* centrado */
   background: rgba(255, 255, 255, 0.95);
   padding: 40px;         /* espacio interno */
   border-radius: 300px;
@@ -149,7 +149,7 @@ h1 {
 }
 /* PARA QUE NO SE CORTE EN EL TELEFONO*/
 .responsive-table-container {
-  width: 120%;
+  width: 100%;
   overflow-x: auto;
 }
 
@@ -280,5 +280,6 @@ button:active {
   background: rgba(90, 204, 36, 0.4);
   transform: scale(1.01);
 }
+
 
 
