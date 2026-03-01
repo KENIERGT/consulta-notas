@@ -1,7 +1,7 @@
-/* --- ESTILOS DE FONDO Y CUERPO --- */
+/* --- ESTILOS GENERALES Y FONDO --- */
 body {
   margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Segoe UI', sans-serif;
   min-height: 100vh;
   background: linear-gradient(135deg, #fdfdfd, #ffffff, #c162e7);
   background-attachment: fixed;
@@ -13,7 +13,7 @@ body {
 /* --- EFECTO GLASS MODERNO (MANTENIDO) --- */
 .main-container {
   width: 95%;
-  max-width: 900px; /* Ajustado para que la tabla respire */
+  max-width: 900px;
   margin: 20px auto;
   padding: 30px;
   border-radius: 25px;
@@ -35,13 +35,8 @@ body {
   margin-bottom: 10px;
 }
 
-.logo-colegio {
+.logos img {
   width: 80px;
-  height: auto;
-}
-
-.logo-mined {
-  max-width: 100px;
   height: auto;
 }
 
@@ -50,7 +45,7 @@ h1 {
   font-size: 20px;
 }
 
-/* --- ENTRADA DE TEXTO (INPUT GROUP MODERNO) --- */
+/* --- BUSCADOR (INPUT GROUP CORREGIDO) --- */
 .input-group {
   position: relative;
   margin: 40px auto;
@@ -66,7 +61,7 @@ h1 {
   color: #0d0d0d;
   width: 100%;
   box-sizing: border-box;
-  transition: border 150ms cubic-bezier(0.4,0,0.2,1);
+  transition: border 150ms ease;
 }
 
 .user-label {
@@ -75,7 +70,7 @@ h1 {
   top: 15px;
   color: #666;
   pointer-events: none;
-  transition: 120ms cubic-bezier(0.4,0,0.2,1);
+  transition: 150ms ease;
 }
 
 .input:focus ~ .user-label, .input:valid ~ .user-label {
@@ -85,7 +80,7 @@ h1 {
   color: #2266be;
 }
 
-/* --- BOTÓN (MANTENIDO) --- */
+/* --- BOTÓN DE BÚSQUEDA --- */
 .btn {
   font-size: 15px;
   text-transform: uppercase;
@@ -105,18 +100,19 @@ h1 {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
-/* --- RESULTADO Y TABLA (SOLUCIÓN MÓVIL) --- */
+/* --- RESULTADO Y TABLA (SOLUCIÓN PARA MÓVIL) --- */
 #resultado {
   margin-top: 30px;
   text-align: left;
   width: 100%;
-  overflow-x: auto; /* Permite deslizar la tabla si no cabe */
+  /* IMPORTANTE: Esto permite que la tabla sea deslizable */
+  overflow-x: auto; 
   -webkit-overflow-scrolling: touch;
   border-radius: 10px;
 }
 
 #resultado h2 {
-  font-size: 1.8rem !important; /* Corregido para móviles */
+  font-size: 1.6rem !important;
   color: #0c63d4;
   margin-bottom: 5px;
   border-bottom: 3px solid #1a73e8;
@@ -125,21 +121,23 @@ h1 {
 
 .notas-table {
   width: 100%;
-  min-width: 650px; /* Obliga a las columnas a no encimarse */
+  /* ESTA ES LA CLAVE: Forzamos el ancho para que los cuatrimestres respiren */
+  min-width: 800px; 
   border-collapse: collapse;
   background-color: white;
 }
 
 .notas-table th, .notas-table td {
   border: 1px solid #ddd;
-  padding: 12px 8px;
+  padding: 12px 10px;
   text-align: center;
 }
 
 .notas-table th {
   background-color: #0c63d4;
   color: white;
-  white-space: nowrap; /* Evita que los títulos se corten */
+  /* Evita que los títulos se amontonen en varias líneas */
+  white-space: nowrap; 
 }
 
 /* --- ANIMACIONES (MANTENIDAS) --- */
@@ -152,13 +150,13 @@ h1 {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* HOVER EN FILAS */
+/* HOVER EN FILAS DE LA TABLA */
 #tabla-notas tbody tr:hover {
   background: rgba(90, 204, 36, 0.1);
   transform: scale(1.01);
 }
 
-/* SPINNER */
+/* SPINNER DE CARGA */
 .spinner {
   width: 40px;
   height: 40px;
@@ -171,9 +169,15 @@ h1 {
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* --- RESPONSIVE FINAL --- */
+/* --- AJUSTES PARA PANTALLAS PEQUEÑAS --- */
 @media (max-width: 600px) {
-  .main-container { padding: 20px 10px; }
-  h1 { font-size: 18px; }
-  #resultado h2 { font-size: 1.4rem !important; }
+  .main-container {
+    padding: 20px 10px;
+  }
+  h1 {
+    font-size: 18px;
+  }
+  #resultado h2 {
+    font-size: 1.4rem !important;
+  }
 }
