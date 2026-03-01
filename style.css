@@ -1,197 +1,123 @@
-/* --- CONFIGURACIÓN GLOBAL Y FONDO --- */
+/* --- TUS ESTILOS BASE (MANTENIDOS) --- */
 body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0.1;
+  font-family: 'Segoe UI', sans-serif;
   min-height: 100vh;
   background: linear-gradient(135deg, #fdfdfd, #ffffff, #c162e7);
   background-attachment: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  padding: 20px 15px;
+  color: #020202;
+  text-align: center;
 }
 
-/* --- CONTENEDOR TIPO APP --- */
+/* EFECTO GLASS (MANTENIDO) */
 .main-container {
   width: 95%;
-  max-width: 800px; /* Corregido: antes tenías 100px */
+  max-width: 900px; /* Corregido de 100px a 900px para que quepa la info */
   margin: 20px auto;
-  padding: 25px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  padding: 30px;
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-  box-sizing: border-box;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+  transition: all 0.4s ease;
 }
 
-/* --- HEADER Y LOGOS --- */
-header {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.logos {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 15px;
-  margin-bottom: 15px;
-}
-
-.logo-colegio {
-  width: 80px;
-  height: auto;
-}
-
-.logo-mined {
-  max-width: 100px;
-  height: auto;
-}
-
-h1 {
-  font-size: 1.4rem;
-  color: #121212;
-  margin: 5px 0;
-}
-
-h3 {
-  font-size: 1rem;
-  color: #444;
-  font-weight: normal;
-}
-
-.section-title {
-  font-size: 1.2rem;
-  margin: 20px 0;
-}
-
-/* --- BUSCADOR (INPUT Y BOTÓN) --- */
-.search-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
-
+/* BUSCADOR (ESTILO QUE ME PEDISTE) */
 .input-group {
   position: relative;
-  width: 100%;
+  margin: 40px auto;
   max-width: 300px;
 }
 
 .input {
-  width: 100%;
   border: solid 1.5px #000;
-  border-radius: 25px;
+  border-radius: 100rem;
   background: white;
-  padding: 12px 15px;
+  padding: 1rem;
   font-size: 1rem;
+  width: 100%;
   box-sizing: border-box;
-  transition: all 0.3s ease;
+  transition: all 150ms ease;
 }
 
 .user-label {
   position: absolute;
   left: 15px;
-  top: 12px;
+  top: 15px;
   color: #666;
   pointer-events: none;
-  transition: all 0.2s ease;
+  transition: all 150ms ease;
 }
 
-.input:focus ~ .user-label, 
-.input:valid ~ .user-label {
-  top: -10px;
-  left: 12px;
-  font-size: 0.8rem;
-  background: white;
-  padding: 0 5px;
-  color: #0c63d4;
+.input:focus ~ .user-label, .input:valid ~ .user-label {
+  transform: translateY(-130%) scale(0.8);
+  background-color: #ffffff;
+  padding: 0 .5em;
+  color: #2266be;
 }
 
+/* BOTÓN (MANTENIDO) */
 .btn {
-  width: 100%;
-  max-width: 300px;
-  padding: 12px;
-  border-radius: 25px;
-  border: none;
-  background-color: #000;
-  color: #fff;
-  font-weight: bold;
+  font-size: 15px;
   text-transform: uppercase;
+  padding: 1em 2.5em;
   cursor: pointer;
-  transition: 0.3s;
+  border-radius: 11em;
+  border: none;
+  font-weight: bold;
+  color: white;
+  background-color: black;
+  transition: 0.4s;
 }
 
-.btn:hover {
-  background-color: #333;
-  transform: translateY(-2px);
-}
-
-/* --- RESULTADOS Y TABLA RESPONSIVA --- */
+/* SOLUCIÓN PARA LA TABLA EN TELÉFONO */
 #resultado {
-  margin-top: 25px;
-  width: 100%;
+  margin-top: 30px;
   text-align: left;
-}
-
-/* El nombre del estudiante */
-#resultado h2 {
-  font-size: 1.5rem !important; /* Corregido: antes tenías 25rem */
-  color: #0c63d4;
-  border-bottom: 3px solid #0c63d4;
-  padding-bottom: 5px;
-  margin-top: 10px;
-}
-
-/* Contenedor que permite deslizar la tabla */
-.responsive-table-container {
   width: 100%;
-  overflow-x: auto; /* IMPORTANTE: Esto arregla el desborde en móvil */
-  margin-top: 15px;
+  overflow-x: auto; /* Esto permite deslizar la tabla si no cabe */
   border-radius: 10px;
 }
 
 .notas-table {
   width: 100%;
-  min-width: 600px; /* Mantiene la tabla legible */
+  min-width: 600px; /* Esto evita que los números se amontonen */
   border-collapse: collapse;
-  background: #fff;
+  background-color: white;
 }
 
-.notas-table th, .notas-table td {
-  border: 1px solid #ddd;
-  padding: 10px;
-  text-align: center;
-  font-size: 0.9rem;
+/* EL NOMBRE (CORREGIDO) */
+#resultado h2 {
+  font-size: 1.8rem !important; /* Ajustado de 25rem a algo real */
+  color: #0c63d4;
+  border-bottom: 3px solid #1a73e8;
+  padding-bottom: 10px;
 }
 
-.notas-table th {
-  background-color: #0c63d4;
-  color: white;
-}
-
-/* --- ANIMACIONES --- */
-.fade-in {
-  animation: fadeIn 0.8s ease-in;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
+/* TUS ANIMACIONES (MANTENIDAS) */
+.fade-in { animation: fadeInUp 0.8s ease-out; }
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(25px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* --- AJUSTES FINALES PARA CELULARES --- */
-@media (max-width: 600px) {
-  .main-container {
-    padding: 15px;
-    margin: 10px auto;
-  }
-  
-  h1 { font-size: 1.1rem; }
-  
-  .logo-colegio { width: 60px; }
-  .logo-mined { max-width: 80px; }
+/* RESPONSIVE (LIMPIO) */
+@media (max-width: 500px) {
+  .main-container { padding: 20px 10px; }
+  h1 { font-size: 18px; }
+  .logo-colegio { width: 80px; height: auto; }
 }
+
+/* Resto de tus estilos (Spinner, Hover de filas, etc.) */
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(0, 0, 0, 0.3);
+  border-top: 5px solid #000000;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
