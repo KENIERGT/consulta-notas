@@ -2,6 +2,7 @@ const SHEET_ID = "15EJszt2CU2bN5xVPyGnkfT0DVFraDJuMImtuIraJyZk";
 const SHEET_GID = "1138138025";
 
 async function buscarNotas() {
+
   const codigo = document.getElementById("codigo").value.trim();
   const resultado = document.getElementById("resultado");
 
@@ -10,20 +11,24 @@ async function buscarNotas() {
     return;
   }
 
-  resultado.innerHTML = "🔎 Buscando en el registro...";
+/* CARGA DE RESULTADO*/
+resultado.innerHTML = `
+  <div class="spinner-container">
+    <div class="spinner"></div>
+    <p style="color:black;margin-top:15px;">Consultando notas...</p>
+  </div>
+`;
 
-  // 🔥 USAMOS EXPORT CSV (NO FALLA EN GITHUB)
   const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${SHEET_GID}`;
 
   try {
+
     const res = await fetch(url);
     const text = await res.text();
-
     const filas = text.split("\n").map(f => f.split(","));
 
     let estudiante = null;
 
-    // Buscar por cédula (columna C = índice 2)
     for (let i = 1; i < filas.length; i++) {
       if (filas[i][2] && filas[i][2].trim().toUpperCase() === codigo.toUpperCase()) {
         estudiante = filas[i];
@@ -48,106 +53,112 @@ async function buscarNotas() {
     };
 
     let html = `
-      <div style="margin-top:30px;font-family:sans-serif;text-align:left;">
-        
-        <h2 style="font-size:2.5rem;color:#1a73e2;border-bottom:5px solid #1a73e8;display:inline-block;">
-          📋 ${safe(1)}
-        </h2>
+    <div class="fade-slide" style="margin-top:30px;">
 
-        <div style="margin-top:10px;">
-          <strong>🆔 Cédula:</strong> ${safe(2)}
+        <h2 style="color:#1a73e8;">📋 ${safe(1)}</h2>
+        <div><strong>🆔 Cédula:</strong> ${safe(2)}</div>
+        <div><strong>🏫 Sección:</strong> ${safe(39)}</div>
+        <div><strong>🏫 Centro Educativo:</strong> Instituto Nacional Público Rosa Montoya Flores</div>
+
+        <button onclick="exportarPDF('${safe(1)}','${safe(2)}','${safe(39)}')" 
+        style="margin:15px 0;background:#1a73e8;color:white;
+        border:none;padding:10px 20px;border-radius:6px;
+        cursor:pointer;font-weight:bold;">
+        📄 Exportar PDF
+        </button>
+
+        <div class="responsive-table-container">
+
+    <table id="tabla-notas" style="width:100%;border-collapse:collapse;margin-top:15px; table-layout:fixed;">
+        <thead>
+          <tr style="background:#1a73e8;color:white;">
+            <th style="width:30%;padding:12px;border:1px solid #ccc;text-align:left;">Materia</th>
+            <th style="width:11.6%;border:1px solid #ccc;text-align:center;">I Cuatri</th>
+            <th style="width:11.6%;border:1px solid #ccc;text-align:center;">II Cuatr</th>
+            <th style="width:11.6%;border:1px solid #ccc;text-align:center;">III Cuatr</th>
+            <th style="width:11.6%;border:1px solid #ccc;text-align:center;">IV Cuatr</th>
+            <th style="width:11.6%;border:1px solid #ccc;text-align:center;">V Cuatr</th>
+            <th style="width:11.6%;border:1px solid #ccc;text-align:center;">VI Cuatr</th>
+          </tr>
+        </thead>
+            <tbody>
+
+              ${crearFila("Lengua y Literatura", 3,9,15,21,27,33)}
+              ${crearFila("Matemática", 4,10,16,22,28,34)}
+              ${crearFila("Geografía / Historia", 5,11,17,23,29,35)}
+              ${crearFila("Ciencias / Química / Física", 6,12,18,24,30,36)}
+              ${crearFila("Inglés", 7,13,19,25,31,37)}
+
+              <tr style="background:#e8f0fe;font-weight:bold;">
+                <td style="padding:12px;border:2px solid #1a73e8;">PROMEDIO GENERAL</td>
+                <td style="text-align:center;border:2px solid #1a73e8;">${f(safe(8))}</td>
+                <td style="text-align:center;border:2px solid #1a73e8;">${f(safe(14))}</td>
+                <td style="text-align:center;border:2px solid #1a73e8;">${f(safe(20))}</td>
+                <td style="text-align:center;border:2px solid #1a73e8;">${f(safe(26))}</td>
+                <td style="text-align:center;border:2px solid #1a73e8;">${f(safe(32))}</td>
+                <td style="text-align:center;border:2px solid #1a73e8;">${f(safe(38))}</td>
+              </tr>
+
+            </tbody>
+          </table>
+
         </div>
-
-        <div style="margin-top:5px;">
-          <strong>🏫 Sección:</strong> ${safe(39)}
-        </div>
-
-<table style="width:100%;border-collapse:collapse;margin-top:25px;background:white;box-shadow:0 4px 10px rgba(0,0,0,0.1);">
-
-  <thead>
-    <tr style="background:#1a73e8;color:white;">
-      <th style="padding:12px;border:1px solid #ccc;text-align:left;">Materia</th>
-      <th style="padding:12px;border:1px solid #ccc;">I Cuat.</th>
-      <th style="padding:12px;border:1px solid #ccc;">II Cuat.</th>
-      <th style="padding:12px;border:1px solid #ccc;">III Cuat.</th>
-      <th style="padding:12px;border:1px solid #ccc;">IV Cuat.</th>
-      <th style="padding:12px;border:1px solid #ccc;">V Cuat.</th>
-      <th style="padding:12px;border:1px solid #ccc;">VI Cuat.</th>
-    </tr>
-  </thead>
-
-  <tbody>
-
-    <tr>
-      <td style="padding:10px;border:1px solid #ccc;"><strong>Lengua y Literatura</strong></td>
-      <td style="text-align:center;border:1px solid #ccc;">${f(safe(3))}</td>
-      <td style="text-align:center;border:1px solid #ccc;">${f(safe(9))}</td>
-      <td style="text-align:center;border:1px solid #ccc;">${f(safe(15))}</td>
-      <td style="text-align:center;border:1px solid #ccc;">${f(safe(21))}</td>
-      <td style="text-align:center;border:1px solid #ccc;">${f(safe(27))}</td>
-      <td style="text-align:center;border:1px solid #ccc;">${f(safe(33))}</td>
-    </tr>
-
-    <tr>
-      <td style="padding:10px;border:1px solid #ccc;"><strong>Matemática</strong></td>
-      <td style="text-align:center;border:1px solid #ccc;">${f(safe(4))}</td>
-      <td style="text-align:center;border:1px solid #ccc;">${f(safe(10))}</td>
-      <td style="text-align:center;border:1px solid #ccc;">${f(safe(16))}</td>
-      <td style="text-align:center;border:1px solid #ccc;">${f(safe(22))}</td>
-      <td style="text-align:center;border:1px solid #ccc;">${f(safe(28))}</td>
-      <td style="text-align:center;border:1px solid #ccc;">${f(safe(34))}</td>
-    </tr>
-
-    <tr>
-      <td style="padding:10px;border:1px solid #ccc;"><strong>Geografía / Historia</strong></td>
-      <td style="text-align:center;border:1px solid #ccc;">${f(safe(5))}</td>
-      <td style="text-align:center;border:1px solid #ccc;">${f(safe(11))}</td>
-      <td style="text-align:center;border:1px solid #ccc;">${f(safe(17))}</td>
-      <td style="text-align:center;border:1px solid #ccc;">${f(safe(23))}</td>
-      <td style="text-align:center;border:1px solid #ccc;">${f(safe(29))}</td>
-      <td style="text-align:center;border:1px solid #ccc;">${f(safe(35))}</td>
-    </tr>
-
-    <tr>
-      <td style="padding:10px;border:1px solid #ccc;"><strong>Ciencias / Química / Física</strong></td>
-      <td style="text-align:center;border:1px solid #ccc;">${f(safe(6))}</td>
-      <td style="text-align:center;border:1px solid #ccc;">${f(safe(12))}</td>
-      <td style="text-align:center;border:1px solid #ccc;">${f(safe(18))}</td>
-      <td style="text-align:center;border:1px solid #ccc;">${f(safe(24))}</td>
-      <td style="text-align:center;border:1px solid #ccc;">${f(safe(30))}</td>
-      <td style="text-align:center;border:1px solid #ccc;">${f(safe(36))}</td>
-    </tr>
-
-    <tr>
-      <td style="padding:10px;border:1px solid #ccc;"><strong>Inglés</strong></td>
-      <td style="text-align:center;border:1px solid #ccc;">${f(safe(7))}</td>
-      <td style="text-align:center;border:1px solid #ccc;">${f(safe(13))}</td>
-      <td style="text-align:center;border:1px solid #ccc;">${f(safe(19))}</td>
-      <td style="text-align:center;border:1px solid #ccc;">${f(safe(25))}</td>
-      <td style="text-align:center;border:1px solid #ccc;">${f(safe(31))}</td>
-      <td style="text-align:center;border:1px solid #ccc;">${f(safe(37))}</td>
-    </tr>
-
-    <tr style="background:#e8f0fe;font-weight:bold;">
-      <td style="padding:12px;border:1px solid #1a73e8;">PROMEDIO GENERAL</td>
-      <td style="text-align:center;border:1px solid #1a73e8;">${f(safe(8))}</td>
-      <td style="text-align:center;border:1px solid #1a73e8;">${f(safe(14))}</td>
-      <td style="text-align:center;border:1px solid #1a73e8;">${f(safe(20))}</td>
-      <td style="text-align:center;border:1px solid #1a73e8;">${f(safe(26))}</td>
-      <td style="text-align:center;border:1px solid #1a73e8;">${f(safe(32))}</td>
-      <td style="text-align:center;border:1px solid #1a73e8;">${f(safe(38))}</td>
-    </tr>
-
-  </tbody>
-</table>
       </div>
     `;
 
     resultado.innerHTML = html;
+
+    function crearFila(nombre,a,b,c,d,e,fIndex){
+      return `
+      <tr>
+        <td style="padding:10px;border:1px solid #ccc;"><strong>${nombre}</strong></td>
+        <td style="text-align:center;border:1px solid #ccc;">${f(safe(a))}</td>
+        <td style="text-align:center;border:1px solid #ccc;">${f(safe(b))}</td>
+        <td style="text-align:center;border:1px solid #ccc;">${f(safe(c))}</td>
+        <td style="text-align:center;border:1px solid #ccc;">${f(safe(d))}</td>
+        <td style="text-align:center;border:1px solid #ccc;">${f(safe(e))}</td>
+        <td style="text-align:center;border:1px solid #ccc;">${f(safe(fIndex))}</td>
+      </tr>`;
+    }
 
   } catch (error) {
     console.error(error);
     resultado.innerHTML = "⚠️ Error crítico al conectar con la base de datos.";
   }
 }
+
+
+
+/* ===== EXPORTAR PDF COMPLETO ===== */
+
+function exportarPDF(nombre, cedula, seccion) {
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  const fecha = new Date().toLocaleDateString();
+
+  doc.setFontSize(16);
+  doc.text("INSTITUTO NACIONAL PÚBLICO ROSA MONTOYA FLORES", 105, 15, { align: "center" });
+
+  doc.setFontSize(14);
+  doc.text("Registro de Calificaciones, Bachillerato Comunitario de JYA", 105, 22, { align: "center" });
+
+  doc.setFontSize(11);
+  doc.text(`Estudiante: ${nombre}`, 14, 35);
+  doc.text(`Cédula: ${cedula}`, 14, 42);
+  doc.text(`Sección: ${seccion}`, 14, 49);
+  doc.text(`Fecha de emisión: ${fecha}`, 14, 56);
+
+  doc.autoTable({
+    html: "#tabla-notas",
+    startY: 65,
+    theme: "grid",
+    headStyles: { fillColor: [26, 115, 232] },
+    styles: { fontSize: 9 }
+  });
+
+  doc.save(`Boleta_${nombre}.pdf`);
+}
+
 
