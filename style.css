@@ -139,11 +139,11 @@ h1 {
 } 
 /* CAJA */
 .main-container {
-  width: 99%;              /* ocupa casi toda la pantalla */
-  max-width: 1500px;       /* ancho máximo grande */
-  margin: 40px auto;       /* centrado */
+  width:120%;            /* ocupa casi toda la pantalla */
+  max-width: 3px;       /* ancho máximo grande */
+  margin: 80px auto;       /* centrado */
   background: rgba(255, 255, 255, 0.95);
-  padding: 40px;           /* espacio interno */
+  padding: 400px;           /* espacio interno */
   border-radius: 30px;
   box-shadow: 0 200px 500px rgba(0, 0, 0, 0.08);
 }
@@ -280,15 +280,6 @@ button:active {
   background: rgba(90, 204, 36, 0.4);
   transform: scale(1.01);
 }
-
-
-
-
-
-
-
-
-
 
 
 
