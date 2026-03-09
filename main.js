@@ -71,8 +71,8 @@ async function buscarNotas() {
     let html = `
     <div class="fade-slide" style="margin-top:30px;">
         <h2 style="color:#1a73e8;">📋 ${safe(0)}</h2>
-        <div><strong>🆔 Cédula:</strong> ${safe(1)}</div>
-        <div><strong>🏫 Sección:</strong> ${safe(39)}</div>
+        <div><strong>🆔 Cédula:</strong> ${safe(2)}</div>
+        <div><strong>🏫 Sección:</strong> ${safe(51)}</div>
         <div><strong>🏫 Centro Educativo:</strong> Instituto Nacional Público Rosa Montoya Flores</div>
 
         <button onclick="exportarPDF('${safe(0)}','${safe(1)}','${safe(39)}')" 
@@ -96,19 +96,27 @@ async function buscarNotas() {
               </tr>
             </thead>
             <tbody>
-              ${crearFila("Lengua y Literatura", 3, 9, 15, 21, 27, 33)}
-              ${crearFila("Matemática", 4, 10, 16, 22, 28, 34)}
-              ${crearFila("Geografía / Historia", 5, 11, 17, 23, 29, 35)}
-              ${crearFila("Ciencias / Química / Física", 6, 12, 18, 24, 30, 36)}
-              ${crearFila("Inglés", 7, 13, 19, 25, 31, 37)}
+              ${crearFila("Lengua y Literatura", 3, 11, 19, 27, 35, 43)}
+              ${crearFila("Matemática", 4, 12, 20, 28, 36, 44)}
+              ${crearFila("Geografía", 5, 21, 37)}
+              ${crearFila("Historia", 13, 29)}
+              ${crearFila("Filosofía y Sociología", 45)}
+              ${crearFila("Ciencias Naturales", 6)}
+              ${crearFila("Química", 14, 22)}
+              ${crearFila("Física", 30, 38)}
+              ${crearFila("Biología", 46}
+              ${crearFila("Inglés", 7, 15, 23, 31, 39, 47)}
+              ${crearFila("Der y Dig. de la Mujer", 8, 16, 24)}
+              ${crearFila("Conducta", 9, 17, 25, 33, 41, 49)}
+              
               <tr style="background:#e8f0fe;font-weight:bold;">
                 <td style="padding:12px;border:2px solid #1a73e8;">PROMEDIO GENERAL</td>
-                <td style="text-align:center;border:2px solid #1a73e8;">${f(safe(8))}</td>
-                <td style="text-align:center;border:2px solid #1a73e8;">${f(safe(14))}</td>
-                <td style="text-align:center;border:2px solid #1a73e8;">${f(safe(20))}</td>
+                <td style="text-align:center;border:2px solid #1a73e8;">${f(safe(10))}</td>
+                <td style="text-align:center;border:2px solid #1a73e8;">${f(safe(18))}</td>
                 <td style="text-align:center;border:2px solid #1a73e8;">${f(safe(26))}</td>
-                <td style="text-align:center;border:2px solid #1a73e8;">${f(safe(32))}</td>
-                <td style="text-align:center;border:2px solid #1a73e8;">${f(safe(38))}</td>
+                <td style="text-align:center;border:2px solid #1a73e8;">${f(safe(34))}</td>
+                <td style="text-align:center;border:2px solid #1a73e8;">${f(safe(42))}</td>
+                <td style="text-align:center;border:2px solid #1a73e8;">${f(safe(50))}</td>
               </tr>
             </tbody>
           </table>
@@ -152,4 +160,5 @@ function exportarPDF(nombre, cedula, seccion) {
 
   doc.save(`Boleta_${nombre}.pdf`);
 }
+
 
