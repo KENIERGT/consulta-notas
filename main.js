@@ -1,5 +1,6 @@
 const SHEET_ID = "1j9FQ5sCX2X2hJC99pBPU44bPGbSwvf2XFulxwvJXFxs";
-const SHEET_GID = "1440602211";
+// Usamos el GID de la hoja específica (1138138025)
+const SHEET_GID = "1138138025"; 
 
 async function buscarNotas() {
   const codigo = document.getElementById("codigo").value.trim();
@@ -17,18 +18,19 @@ async function buscarNotas() {
     </div>
   `;
 
+  // URL de exportación CSV
   const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${SHEET_GID}`;
 
   try {
     const res = await fetch(url);
     const text = await res.text();
     
-    // Usamos una expresión regular para manejar comas dentro de textos si las hubiera
+    // Dividir por líneas y luego por comas
     const filas = text.split("\n").map(f => f.split(","));
 
     let estudiante = null;
 
-    // Buscamos el código en la columna "CodigoEstudiante" (Índice 2)
+    // Buscamos el código en la columna C (Índice 2)
     for (let i = 1; i < filas.length; i++) {
       if (filas[i][2] && filas[i][2].trim().toUpperCase() === codigo.toUpperCase()) {
         estudiante = filas[i];
@@ -41,10 +43,8 @@ async function buscarNotas() {
       return;
     }
 
-    // Función auxiliar para limpiar datos vacíos
     const safe = (i) => (estudiante[i] && estudiante[i].trim() !== "") ? estudiante[i].trim() : "-";
 
-    // Función para dar formato y color rojo a reprobados
     const f = (valor) => {
       if (!valor || valor === "-") return "-";
       const num = parseFloat(valor.replace(",", "."));
@@ -54,7 +54,6 @@ async function buscarNotas() {
       return valor;
     };
 
-    // Función para crear filas de la tabla internamente
     const crearFila = (nombre, a, b, c, d, e, fIndex) => {
       return `
       <tr>
@@ -71,11 +70,11 @@ async function buscarNotas() {
     let html = `
     <div class="fade-slide" style="margin-top:30px;">
         <h2 style="color:#1a73e8;">📋 ${safe(0)}</h2>
-        <div><strong>🆔 Cédula:</strong> ${safe(2)}</div>
+        <div><strong>🆔 Cédula:</strong> ${safe(1)}</div>
         <div><strong>🏫 Sección:</strong> ${safe(51)}</div>
         <div><strong>🏫 Centro Educativo:</strong> Instituto Nacional Público Rosa Montoya Flores</div>
 
-        <button onclick="exportarPDF('${safe(0)}','${safe(1)}','${safe(39)}')" 
+        <button onclick="exportarPDF('${safe(0)}','${safe(1)}','${safe(51)}')" 
         style="margin:15px 0;background:#1a73e8;color:white;
         border:none;padding:10px 20px;border-radius:6px;
         cursor:pointer;font-weight:bold;">
@@ -98,15 +97,15 @@ async function buscarNotas() {
             <tbody>
               ${crearFila("Lengua y Literatura", 3, 11, 19, 27, 35, 43)}
               ${crearFila("Matemática", 4, 12, 20, 28, 36, 44)}
-              ${crearFila("Geografía", 5, 21, 37)}
-              ${crearFila("Historia", 13, 29)}
-              ${crearFila("Filosofía y Sociología", 45)}
-              ${crearFila("Ciencias Naturales", 6)}
-              ${crearFila("Química", 14, 22)}
-              ${crearFila("Física", 30, 38)}
-              ${crearFila("Biología", 46}
+              ${crearFila("Geografía", 5, 21, 37, "-", "-", "-")}
+              ${crearFila("Historia", 13, 29, "-", "-", "-", "-")}
+              ${crearFila("Filosofía y Soc.", "-", "-", "-", "-", "-", 45)}
+              ${crearFila("Ciencias Nat.", 6, "-", "-", "-", "-", "-")}
+              ${crearFila("Química", 14, 22, "-", "-", "-", "-")}
+              ${crearFila("Física", 30, 38, "-", "-", "-", "-")}
+              ${crearFila("Biología", "-", "-", "-", "-", "-", 46)}
               ${crearFila("Inglés", 7, 15, 23, 31, 39, 47)}
-              ${crearFila("Der y Dig. de la Mujer", 8, 16, 24)}
+              ${crearFila("Derechos de la Mujer", 8, 16, 24, "-", "-", "-")}
               ${crearFila("Conducta", 9, 17, 25, 33, 41, 49)}
               
               <tr style="background:#e8f0fe;font-weight:bold;">
@@ -131,34 +130,26 @@ async function buscarNotas() {
   }
 }
 
-/* ===== EXPORTAR PDF ===== */
 function exportarPDF(nombre, cedula, seccion) {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
   const fecha = new Date().toLocaleDateString();
 
-  doc.setFontSize(16);
+  doc.setFontSize(14);
   doc.text("INSTITUTO NACIONAL PÚBLICO ROSA MONTOYA FLORES", 105, 15, { align: "center" });
-
-  doc.setFontSize(12);
-  doc.text("Registro de Calificaciones, Bachillerato Comunitario de JYA", 105, 22, { align: "center" });
-
-  doc.setFontSize(10);
-  doc.text(`Estudiante: ${nombre}`, 14, 35);
-  doc.text(`Cédula: ${cedula}`, 14, 42);
-  doc.text(`Sección: ${seccion}`, 14, 49);
-  doc.text(`Fecha de emisión: ${fecha}`, 14, 56);
+  doc.setFontSize(11);
+  doc.text(`Estudiante: ${nombre} | Cédula: ${cedula} | Sección: ${seccion}`, 14, 30);
 
   doc.autoTable({
     html: "#tabla-notas",
-    startY: 65,
+    startY: 40,
     theme: "grid",
     headStyles: { fillColor: [26, 115, 232] },
-    styles: { fontSize: 8, cellPadding: 2 },
-    columnStyles: { 0: { cellWidth: 50 } }
+    styles: { fontSize: 8 }
   });
 
   doc.save(`Boleta_${nombre}.pdf`);
 }
+
 
 
