@@ -41,7 +41,7 @@ async function buscarNotas() {
         };
 
         // Función para generar cada fila de materia por separado
-        const fila = (nom, p1, p2, p3, p4, p5) => `
+        const fila = (nom, p1, p2, p3, p4, p5, p6) => `
             <tr>
                 <td style="text-align:left;"><strong>${nom}</strong></td>
                 <td>${f(safe(p1))}</td>
@@ -49,6 +49,7 @@ async function buscarNotas() {
                 <td>${f(safe(p3))}</td>
                 <td>${f(safe(p4))}</td>
                 <td>${f(safe(p5))}</td>
+                <td>${f(safe(p6))}</td>
             </tr>`;
 
         resultado.innerHTML = `
@@ -59,23 +60,25 @@ async function buscarNotas() {
                     <thead>
                         <tr style="background:#1a73e8; color:white;">
                             <th>MATERIA</th>
-                            <th>I</th><th>II</th><th>III</th><th>IV</th><th>V</th>
+                            <th>I</th><th>II</th><th>III</th><th>IV</th><th>V</th><th>VI</th>
                         </tr>
                     </thead>
                     <tbody>
-                        ${fila("Lengua y Literatura", 3, 11, 19, 27, 35)}
-                        ${fila("Matemática", 4, 12, 20, 28, 36)}
-                        ${fila("Geografía", 5, 13, 21, 29, 37)}
+                        ${fila("Lengua y Literatura", 3, 11, 19, 27, 35, 43)}
+                        ${fila("Matemática", 4, 12, 20, 28, 36, 44)}
+                        ${fila("Geografía", 5, "-", 21, "-", 37, "-")}
+                        ${fila("Historia", "-", 13, "-", 29, "-", "-")}
                         ${fila("Ciencias Naturales", 6, "-", "-", "-", "-")}
-                        ${fila("Química", "-", 14, 22, 30, 38)}
-                        ${fila("Física", "-", "-", 30, 38, "-")}
-                        ${fila("Biología", "-", "-", "-", "-", 46)}
-                        ${fila("Filosofía y Soc.", "-", "-", "-", "-", 45)}
-                        ${fila("Inglés", 7, 15, 23, 31, 39)}
+                        ${fila("Química Orgánica e Inorgánica", "-", 14, 22, "-", "-")}
+                        ${fila("Física", "-", "-", "-", 30, 38, "-")}
+                        ${fila("Biología", "-", "-", "-", "-", "-", 46)}
+                        ${fila("Filosofía y Sociología", "-", "-", "-", "-", "-", 45)}
+                        ${fila("Inglés", 7, 15, 23, 31, 39, 47)}
+                        ${fila("Derechos y Dignidad de la Mujer", 8, 16, 24, "-", "-", "-")}
                         ${fila("Conducta", 9, 17, 25, 33, 41, 49)}
                         <tr style="background:#f1f3f4; font-weight:bold;">
                             <td>PROMEDIO GENERAL</td>
-                            <td>${f(safe(10))}</td><td>${f(safe(18))}</td><td>${f(safe(26))}</td><td>${f(safe(34))}</td><td>${f(safe(42))}</td>
+                            <td>${f(safe(10))}</td><td>${f(safe(18))}</td><td>${f(safe(26))}</td><td>${f(safe(34))}</td><td>${f(safe(42))}<td>${f(safe(50))}</td></td>
                         </tr>
                     </tbody>
                 </table>
@@ -85,5 +88,6 @@ async function buscarNotas() {
         resultado.innerHTML = "⚠️ Error al conectar con el servidor.";
     }
 }
+
 
 
