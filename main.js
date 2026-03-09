@@ -1,5 +1,5 @@
-const SHEET_ID = "15EJszt2CU2bN5xVPyGnkfT0DVFraDJuMImtuIraJyZk";
-const SHEET_GID = "1138138025";
+const SHEET_ID = "1j9FQ5sCX2X2hJC99pBPU44bPGbSwvf2XFulxwvJXFxs";
+const SHEET_GID = "1440602211";
 
 async function buscarNotas() {
 
@@ -19,7 +19,7 @@ resultado.innerHTML = `
   </div>
 `;
 
-  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${SHEET_GID}`;
+const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${SHEET_GID}`;
 
   try {
 
@@ -160,5 +160,6 @@ function exportarPDF(nombre, cedula, seccion) {
 
   doc.save(`Boleta_${nombre}.pdf`);
 }
+
 
 
