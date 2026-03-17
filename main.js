@@ -54,7 +54,7 @@ async function buscarNotas() {
 
         resultado.innerHTML = `
             <div style="background:white; padding:20px; border-radius:10px; border:1px solid #ddd;">
-                <h3>${safe(1)}</h3>
+                <h2>${safe(1)}</h2>
                 <p>Cédula: ${safe(2)}</p>
                 <p>Código de Persona: ${safe(53)}</p>
                 <p>Edad: ${safe(55)}</p>
