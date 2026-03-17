@@ -56,7 +56,11 @@ async function buscarNotas() {
             <div style="background:white; padding:20px; border-radius:10px; border:1px solid #ddd;">
                 <h3>${safe(1)}</h3>
                 <p>Cédula: ${safe(2)}</p>
-                <p>Tutor: ${safe(53)}</p>
+                <p>Código de Persona: ${safe(53)}</p>
+                <p>Edad: ${safe(55)}</p>
+                <p>Año y Sección: ${safe(54)}</p>
+                <p>Código de Estudiante: ${safe(57)}</p>
+                <p>Tutor: ${safe(59)}</p>
                 <table style="width:100%; border-collapse:collapse; text-align:center;">
                     <thead>
                         <tr style="background:#1a73e8; color:white;">
