@@ -123,11 +123,17 @@ async function buscarNotas() {
       return;
     }
 
-    renderBoleta(estudiante);
-    searchView.hidden = true;
-    resultView.hidden = false;
+    try {
+      renderBoleta(estudiante);
+      searchView.hidden = true;
+      resultView.hidden = false;
+    } catch (renderErr) {
+      console.error("Error al renderizar la boleta:", renderErr);
+      showError("⚠️ Se encontró el registro pero hubo un error al mostrarlo. Revisá la consola (F12).");
+    }
   } catch (e) {
-    showError("⚠️ Error al conectar con el servidor. Intentá de nuevo.");
+    console.error("Error al conectar / descargar la hoja:", e);
+    showError(`⚠️ Error al conectar con el servidor: ${e.message}`);
   } finally {
     setLoading(false);
   }
@@ -237,4 +243,63 @@ function renderBoleta(estudiante) {
       promedioGeneral,
     })
   );
+}
+
+function resetBusqueda() {
+  resultView.hidden = true;
+  resultView.innerHTML = "";
+  searchView.hidden = false;
+  input.value = "";
+  input.focus();
+}
+
+// ======================================================
+// Exportar PDF (jsPDF + autotable ya cargados en index.html)
+// ======================================================
+function exportarPDF(info) {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  doc.setFontSize(14);
+  doc.text("Bachillerato Comunitario de JYA", 14, 16);
+  doc.setFontSize(10);
+  doc.text("Instituto Nacional Público Rosa Montoya Flores", 14, 22);
+
+  doc.setFontSize(12);
+  doc.text(`Estudiante: ${info.nombre}`, 14, 34);
+  doc.setFontSize(10);
+  doc.text(`Cédula: ${info.cedula}`, 14, 41);
+  doc.text(`Año y sección: ${info.seccion}`, 14, 47);
+  doc.text(`Código de persona: ${info.codigoPersona}`, 105, 41);
+  doc.text(`Código de estudiante: ${info.codigoEstudiante}`, 105, 47);
+  doc.text(`Edad: ${info.edad}`, 14, 53);
+  doc.text(`Tutor: ${info.tutor}`, 105, 53);
+
+  const body = MATERIAS.map((m) => {
+    const estudianteRow = window.__ultimoEstudiante;
+    const valores = m.cols.map((c) => (c === null ? "-" : safe(estudianteRow, c)));
+    return [m.nombre, ...valores];
+  });
+
+  const promediosRow = ["Promedio general", ...COL_PROMEDIOS.map((c) => safe(window.__ultimoEstudiante, c))];
+  body.push(promediosRow);
+
+  doc.autoTable({
+    startY: 60,
+    head: [["Materia", "I", "II", "III", "IV", "V", "VI"]],
+    body,
+    styles: { fontSize: 8, cellPadding: 2 },
+    headStyles: { fillColor: [22, 35, 63] },
+    didParseCell: (data) => {
+      if (data.section === "body" && data.column.index > 0) {
+        const v = data.cell.raw;
+        if (esReprobado(v)) {
+          data.cell.styles.textColor = [178, 58, 46];
+          data.cell.styles.fontStyle = "bold";
+        }
+      }
+    },
+  });
+
+  doc.save(`boleta_${info.cedula}.pdf`);
 }
