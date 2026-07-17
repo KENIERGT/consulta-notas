@@ -92,7 +92,7 @@ async function buscarNotas() {
   clearError();
 
   if (!codigo) {
-    showError("⚠️ Ingresá una cédula.");
+    showError("Ingresá una cédula.");
     return;
   }
 
@@ -123,17 +123,11 @@ async function buscarNotas() {
       return;
     }
 
-    try {
-      renderBoleta(estudiante);
-      searchView.hidden = true;
-      resultView.hidden = false;
-    } catch (renderErr) {
-      console.error("Error al renderizar la boleta:", renderErr);
-      showError("⚠️ Se encontró el registro pero hubo un error al mostrarlo. Revisá la consola (F12).");
-    }
+    renderBoleta(estudiante);
+    searchView.hidden = true;
+    resultView.hidden = false;
   } catch (e) {
-    console.error("Error al conectar / descargar la hoja:", e);
-    showError(`⚠️ Error al conectar con el servidor: ${e.message}`);
+    showError("⚠️ Error al conectar con el servidor. Intentá de nuevo.");
   } finally {
     setLoading(false);
   }
@@ -201,7 +195,7 @@ function renderBoleta(estudiante) {
           <span class="num">${promedioGeneral}</span>
           <span class="lbl">Prom.</span>
         </div>
-        <p class="boleta-eyebrow">Boleta de calificaciones</p>
+        <p class="boleta-eyebrow">Historial de calificaciones</p>
         <h2 class="boleta-name">${nombre}</h2>
         <div class="boleta-meta">
           <div><span class="k">Cédula</span><span class="v">${cedula}</span></div>
@@ -216,7 +210,7 @@ function renderBoleta(estudiante) {
       <div class="perforation"><div class="dashes"></div></div>
 
       <div class="boleta-body">
-        <p class="section-label">Materias · I a VI bimestre</p>
+        <p class="section-label">Materias · I a VI Cuatrimestre</p>
         <div class="subjects">
           ${filasMaterias}
           <div class="average-row">${filaPromedio}</div>
