@@ -1,98 +1,240 @@
+// ======================================================
+// CONFIG — misma hoja y gid originales, sin cambios
+// ======================================================
 const SHEET_ID = "1j9FQ5sCX2X2hJC99pBPU44bPGbSwvf2XFulxwvJXFxs";
-const SHEET_GID = "1138138025"; 
+const SHEET_GID = "1138138025";
 
-async function buscarNotas() {
-    const codigo = document.getElementById("codigo").value.trim();
-    const resultado = document.getElementById("resultado");
+// Materias -> columnas por bimestre (I..VI). Igual que el original.
+const MATERIAS = [
+  { nombre: "Lengua y Literatura",              cols: [3, 11, 19, 27, 35, 43] },
+  { nombre: "Matemática",                       cols: [4, 12, 20, 28, 36, 44] },
+  { nombre: "Geografía",                        cols: [5, null, 21, null, 37, null] },
+  { nombre: "Historia",                         cols: [null, 13, null, 29, null, null] },
+  { nombre: "Ciencias Naturales",                cols: [6, null, null, null, null, null] },
+  { nombre: "Química Orgánica e Inorgánica",     cols: [null, 14, 22, null, null, null] },
+  { nombre: "Física",                           cols: [null, null, null, 30, 38, null] },
+  { nombre: "Biología",                         cols: [null, null, null, null, null, 46] },
+  { nombre: "Filosofía y Sociología",           cols: [null, null, null, null, null, 45] },
+  { nombre: "Inglés",                           cols: [7, 15, 23, 31, 39, 47] },
+  { nombre: "Derechos y Dignidad de la Mujer",  cols: [8, 16, 24, null, null, null] },
+  { nombre: "Conducta",                         cols: [9, 17, 25, 33, 41, 49] },
+];
 
-    if (!codigo) {
-        resultado.innerHTML = "<p style='color:red;'>⚠️ Ingrese una cédula.</p>";
-        return;
-    }
+const COL_PROMEDIOS = [10, 18, 26, 34, 42, 50];
 
-    resultado.innerHTML = `<p>Cargando historial completo...</p>`;
+const COL = {
+  nombre: 1,
+  cedula: 2,
+  codigoPersona: 53,
+  edad: 55,
+  seccion: 54,
+  codigoEstudiante: 57,
+  tutor: 59,
+};
 
-    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${SHEET_GID}`;
+// ======================================================
+// DOM refs
+// ======================================================
+const form        = document.getElementById("searchForm");
+const input       = document.getElementById("codigo");
+const searchBtn   = document.getElementById("searchBtn");
+const btnLabel    = searchBtn.querySelector(".btn-label");
+const btnSpinner  = searchBtn.querySelector(".btn-spinner");
+const errorMsg    = document.getElementById("errorMsg");
+const searchView  = document.getElementById("searchView");
+const resultView  = document.getElementById("resultView");
 
-    try {
-        const res = await fetch(url);
-        const text = await res.text();
-        const filas = text.split("\n").map(l => l.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/));
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  buscarNotas();
+});
 
-        let estudiante = null;
-        for (let i = 1; i < filas.length; i++) {
-            let cedulaCelda = filas[i][2] ? filas[i][2].replace(/"/g, "").trim() : "";
-            if (cedulaCelda.toUpperCase() === codigo.toUpperCase()) {
-                estudiante = filas[i];
-                break;
-            }
-        }
-
-        if (!estudiante) {
-            resultado.innerHTML = "❌ No se encontró el registro.";
-            return;
-        }
-
-        const safe = (i) => (estudiante[i] ? estudiante[i].replace(/"/g, "").trim() : "-");
-        const f = (valor) => {
-            if (!valor || valor === "-" || valor === "") return "-";
-            const num = parseFloat(valor.replace(",", "."));
-            return (!isNaN(num) && num < 60) ? `<span style="color:red;font-weight:bold;">${valor}</span>` : valor;
-        };
-
-        // Función para generar cada fila de materia por separado
-        const fila = (nom, p1, p2, p3, p4, p5, p6) => `
-            <tr>
-                <td style="text-align:left;"><strong>${nom}</strong></td>
-                <td>${f(safe(p1))}</td>
-                <td>${f(safe(p2))}</td>
-                <td>${f(safe(p3))}</td>
-                <td>${f(safe(p4))}</td>
-                <td>${f(safe(p5))}</td>
-                <td>${f(safe(p6))}</td>
-            </tr>`;
-
-        resultado.innerHTML = `
-            <div style="background:white; padding:20px; border-radius:10px; border:1px solid #ddd;">
-                <h2>${safe(1)}</h2>
-                <p>Cédula: ${safe(2)}</p>
-                <p>Código de Persona: ${safe(53)}</p>
-                <p>Edad: ${safe(55)}</p>
-                <p>Año y Sección: ${safe(54)}</p>
-                <p>Código de Estudiante: ${safe(57)}</p>
-                <p>Tutor: ${safe(59)}</p>
-                <table style="width:100%; border-collapse:collapse; text-align:center;">
-                    <thead>
-                        <tr style="background:#1a73e8; color:white;">
-                            <th>MATERIA</th>
-                            <th>I</th><th>II</th><th>III</th><th>IV</th><th>V</th><th>VI</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${fila("Lengua y Literatura", 3, 11, 19, 27, 35, 43)}
-                        ${fila("Matemática", 4, 12, 20, 28, 36, 44)}
-                        ${fila("Geografía", 5, "-", 21, "-", 37, "-")}
-                        ${fila("Historia", "-", 13, "-", 29, "-", "-")}
-                        ${fila("Ciencias Naturales", 6, "-", "-", "-", "-")}
-                        ${fila("Química Orgánica e Inorgánica", "-", 14, 22, "-", "-")}
-                        ${fila("Física", "-", "-", "-", 30, 38, "-")}
-                        ${fila("Biología", "-", "-", "-", "-", "-", 46)}
-                        ${fila("Filosofía y Sociología", "-", "-", "-", "-", "-", 45)}
-                        ${fila("Inglés", 7, 15, 23, 31, 39, 47)}
-                        ${fila("Derechos y Dignidad de la Mujer", 8, 16, 24, "-", "-", "-")}
-                        ${fila("Conducta", 9, 17, 25, 33, 41, 49)}
-                        <tr style="background:#f1f3f4; font-weight:bold;">
-                            <td>PROMEDIO GENERAL</td>
-                            <td>${f(safe(10))}</td><td>${f(safe(18))}</td><td>${f(safe(26))}</td><td>${f(safe(34))}</td><td>${f(safe(42))}<td>${f(safe(50))}</td></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        `;
-    } catch (e) {
-        resultado.innerHTML = "⚠️ Error al conectar con el servidor.";
-    }
+// ======================================================
+// Helpers
+// ======================================================
+function setLoading(loading) {
+  searchBtn.disabled = loading;
+  btnLabel.textContent = loading ? "Buscando..." : "Buscar notas";
+  btnSpinner.hidden = !loading;
 }
 
+function showError(msg) {
+  errorMsg.textContent = msg;
+  errorMsg.hidden = false;
+}
 
+function clearError() {
+  errorMsg.hidden = true;
+  errorMsg.textContent = "";
+}
 
+function safe(fila, i) {
+  return fila[i] ? fila[i].replace(/"/g, "").trim() : "-";
+}
+
+function esReprobado(valor) {
+  if (!valor || valor === "-" || valor === "") return false;
+  const num = parseFloat(String(valor).replace(",", "."));
+  return !isNaN(num) && num < 60;
+}
+
+function parseCSV(text) {
+  return text
+    .split("\n")
+    .map((l) => l.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/));
+}
+
+// ======================================================
+// Búsqueda principal
+// ======================================================
+async function buscarNotas() {
+  const codigo = input.value.trim();
+  clearError();
+
+  if (!codigo) {
+    showError("⚠️ Ingresá una cédula.");
+    return;
+  }
+
+  setLoading(true);
+  resultView.hidden = true;
+
+  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${SHEET_GID}`;
+
+  try {
+    const res = await fetch(url);
+    const text = await res.text();
+    const filas = parseCSV(text);
+
+    let estudiante = null;
+    for (let i = 1; i < filas.length; i++) {
+      const cedulaCelda = filas[i][COL.cedula]
+        ? filas[i][COL.cedula].replace(/"/g, "").trim()
+        : "";
+      if (cedulaCelda.toUpperCase() === codigo.toUpperCase()) {
+        estudiante = filas[i];
+        break;
+      }
+    }
+
+    if (!estudiante) {
+      showError("❌ No se encontró el registro. Verificá la cédula ingresada.");
+      setLoading(false);
+      return;
+    }
+
+    renderBoleta(estudiante);
+    searchView.hidden = true;
+    resultView.hidden = false;
+  } catch (e) {
+    showError("⚠️ Error al conectar con el servidor. Intentá de nuevo.");
+  } finally {
+    setLoading(false);
+  }
+}
+
+// ======================================================
+// Render de la boleta
+// ======================================================
+function chipHTML(romano, valor) {
+  const vacio = !valor || valor === "-";
+  const fail = esReprobado(valor);
+  const clase = ["chip", vacio ? "empty" : "", fail ? "fail" : ""]
+    .filter(Boolean)
+    .join(" ");
+  return `
+    <div class="${clase}">
+      <span class="rn">${romano}</span>
+      <span class="grade">${vacio ? "–" : valor}</span>
+    </div>`;
+}
+
+function subjectRowHTML(nombre, valores) {
+  const romanos = ["I", "II", "III", "IV", "V", "VI"];
+  const chips = valores.map((v, i) => chipHTML(romanos[i], v)).join("");
+  return `
+    <div class="subject">
+      <p class="subject-name">${nombre}</p>
+      <div class="chips">${chips}</div>
+    </div>`;
+}
+
+function renderBoleta(estudiante) {
+  window.__ultimoEstudiante = estudiante;
+
+  const nombre = safe(estudiante, COL.nombre);
+  const cedula = safe(estudiante, COL.cedula);
+  const codigoPersona = safe(estudiante, COL.codigoPersona);
+  const edad = safe(estudiante, COL.edad);
+  const seccion = safe(estudiante, COL.seccion);
+  const codigoEstudiante = safe(estudiante, COL.codigoEstudiante);
+  const tutor = safe(estudiante, COL.tutor);
+
+  const promedios = COL_PROMEDIOS.map((c) => safe(estudiante, c));
+  const promediosValidos = promedios.filter((v) => v !== "-" && v !== "");
+  const promedioGeneral = promediosValidos.length
+    ? (
+        promediosValidos.reduce(
+          (acc, v) => acc + parseFloat(String(v).replace(",", ".")),
+          0
+        ) / promediosValidos.length
+      ).toFixed(1)
+    : "-";
+
+  const filasMaterias = MATERIAS.map((m) => {
+    const valores = m.cols.map((c) => (c === null ? "-" : safe(estudiante, c)));
+    return subjectRowHTML(m.nombre, valores);
+  }).join("");
+
+  const filaPromedio = subjectRowHTML("Promedio general", promedios);
+
+  resultView.innerHTML = `
+    <div class="boleta" id="boletaPrint">
+      <div class="boleta-head">
+        <div class="seal">
+          <span class="num">${promedioGeneral}</span>
+          <span class="lbl">Prom.</span>
+        </div>
+        <p class="boleta-eyebrow">Boleta de calificaciones</p>
+        <h2 class="boleta-name">${nombre}</h2>
+        <div class="boleta-meta">
+          <div><span class="k">Cédula</span><span class="v">${cedula}</span></div>
+          <div><span class="k">Año y sección</span><span class="v">${seccion}</span></div>
+          <div><span class="k">Código de persona</span><span class="v">${codigoPersona}</span></div>
+          <div><span class="k">Código de estudiante</span><span class="v">${codigoEstudiante}</span></div>
+          <div><span class="k">Edad</span><span class="v">${edad}</span></div>
+          <div><span class="k">Tutor</span><span class="v">${tutor}</span></div>
+        </div>
+      </div>
+
+      <div class="perforation"><div class="dashes"></div></div>
+
+      <div class="boleta-body">
+        <p class="section-label">Materias · I a VI bimestre</p>
+        <div class="subjects">
+          ${filasMaterias}
+          <div class="average-row">${filaPromedio}</div>
+        </div>
+      </div>
+
+      <div class="boleta-actions">
+        <button class="btn-ghost" id="btnNueva">Nueva búsqueda</button>
+        <button class="btn-secondary" id="btnPDF">Descargar PDF</button>
+      </div>
+    </div>
+  `;
+
+  document.getElementById("btnNueva").addEventListener("click", resetBusqueda);
+  document.getElementById("btnPDF").addEventListener("click", () =>
+    exportarPDF({
+      nombre,
+      cedula,
+      seccion,
+      codigoPersona,
+      codigoEstudiante,
+      edad,
+      tutor,
+      promedioGeneral,
+    })
+  );
+}
