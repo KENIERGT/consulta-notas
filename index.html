@@ -1,36 +1,67 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bachillerato Comunitario de JYA</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="theme-color" content="#16233F">
+<title>Bachillerato Comunitario de JYA · Consulta de Notas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="main-container fade-in">
-    <header>
-      <div class="logos">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWrQx4Wm88UkrwZSWK2QLKWuCjsNvFm2cWrQ&s" alt="Logo Institucional" class="logo-mined">
-        <img src="logo.png/logo1.png" alt="Logo Colegio" class="logo-colegio">
-      </div>
-      <h1>Bachillerato Comunitario de JYA</h1> 
-      <h3>Instituto Nacional Publico Rosa Montoya Flores</h3>
-    </header>
 
-    <main>
-      <h1>🔍 Consulta de Notas</h1>
-      <div class="search-box">
-        <div class="input-group">
-          <input id="codigo" required type="text" autocomplete="off" class="input">
-          <label class="user-label">Ingrese Cédula</label>
-        </div>
-        <button onclick="buscarNotas()" class="btn">Buscar Notas</button>
+<div class="page">
+
+  <header class="site-header">
+    <div class="crest-row">
+      <img class="crest" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWrQx4Wm88UkrwZSWK2QLKWuCjsNvFm2cWrQ&s" alt="Logo Institucional" onerror="this.style.visibility='hidden'">
+      <div class="header-text">
+        <p class="eyebrow">Instituto Nacional Público Rosa Montoya Flores</p>
+        <h1>Bachillerato Comunitario de JYA</h1>
+        <p class="subtitle">El Cua · Jinotega · Nicaragua</p>
       </div>
-      <div id="resultado"></div>
-    </main>
-  </div>
-<script src="main.js"></script>
+      <img class="crest" src="logo1.png" alt="Logo Colegio" onerror="this.style.visibility='hidden'">
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ===== VISTA DE BÚSQUEDA ===== -->
+    <section id="searchView" class="search-card">
+      <span class="search-kicker">Consulta de notas</span>
+      <h2> I al VI Cuatrimestre</h2>
+      <p class="search-help">Ingresá tu número de cédula para ver tu historial académico completo.</p>
+
+      <form id="searchForm" class="search-form">
+        <div class="field">
+          <input id="codigo" type="text" inputmode="text" autocomplete="off" autocapitalize="characters" required placeholder=" ">
+          <label for="codigo">Número de cédula</label>
+        </div>
+
+        <button type="submit" id="searchBtn" class="btn-primary">
+          <span class="btn-label">Buscar notas</span>
+          <span class="btn-spinner" hidden></span>
+        </button>
+      </form>
+
+      <p id="errorMsg" class="error-msg" hidden></p>
+    </section>
+
+    <!-- ===== VISTA DE RESULTADO (se llena por JS) ===== -->
+    <section id="resultView" class="result-view" hidden></section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>Bachillerato Comunitario de JYA &middot; Rosa Montoya Flores</p>
+  </footer>
+
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+<script src="main.js"></script>
 </body>
 </html>
