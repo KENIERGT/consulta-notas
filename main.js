@@ -1,7 +1,7 @@
 // ======================================================
 // CONFIG — misma hoja y gid originales, sin cambios
 // ======================================================
-const SHEET_ID = "17x3-XLHnvFYD4I9gT96KzNdlcGM6ceY67zdvQfP1Aa4";
+const SHEET_ID = "2PACX-1vSMzFZXCDvyI2fWADrHlEd5ZbKgm57HdxE74n-z6c6uWxNHTWOD8O14PsEV_2i3xv1klxdZq3PJhVqS";
 const SHEET_GID = "1138138025";
 
 // Materias -> columnas por bimestre (I..VI). Igual que el original.
@@ -99,7 +99,7 @@ async function buscarNotas() {
   setLoading(true);
   resultView.hidden = true;
 
-  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${SHEET_GID}`;
+  const url = `https://docs.google.com/spreadsheets/d/e/${PUB_ID}/pub?gid=${SHEET_GID}&single=true&output=csv`;
 
   try {
     const res = await fetch(url);
