@@ -1,7 +1,7 @@
 // ======================================================
 // CONFIG — misma hoja y gid originales, sin cambios
 // ======================================================
-const SHEET_ID = "1j9FQ5sCX2X2hJC99pBPU44bPGbSwvf2XFulxwvJXFxs";
+const SHEET_ID = "17x3-XLHnvFYD4I9gT96KzNdlcGM6ceY67zdvQfP1Aa4";
 const SHEET_GID = "1138138025";
 
 // Materias -> columnas por bimestre (I..VI). Igual que el original.
