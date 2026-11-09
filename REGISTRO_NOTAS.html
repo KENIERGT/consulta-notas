@@ -10,16 +10,16 @@
 <link rel="stylesheet" href="tema.css">
 <style>
   /* Los colores, botones, campos y tarjetas vienen de tema.css; aquí solo lo propio de esta página */
-  nav.tabs{background:var(--card); border-bottom:1px solid var(--border); position:sticky; top:0; z-index:6;}
-  nav.tabs .wrap{display:flex; gap:4px; padding:0 12px;}
-  .tab{background:none; border:none; border-bottom:3px solid transparent; padding:12px 18px; min-height:var(--toque); font:inherit; font-size:1rem; font-weight:600;
-       color:var(--muted); cursor:pointer; transition:color .15s ease, border-color .15s ease;}
-  .tab:hover{color:var(--text);}
-  .tab.on{color:var(--primary); border-bottom-color:var(--primary);}
-  main{max-width:1120px; margin:0 auto; padding:22px 16px 80px;}
+  nav.tabs{background:color-mix(in srgb, var(--card) 88%, transparent); -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px); border-bottom:1px solid var(--border); position:sticky; top:0; z-index:6;}
+  nav.tabs .wrap{display:flex; gap:6px; padding:8px 12px;}
+  .tab{background:none; border:1.5px solid transparent; border-radius:999px; padding:8px 20px; min-height:42px; font:inherit; font-size:.97rem; font-weight:600;
+       color:var(--muted); cursor:pointer; transition:color .15s ease, background .15s ease, border-color .15s ease;}
+  .tab:hover{color:var(--text); background:var(--head);}
+  .tab.on{color:var(--primary); background:var(--primary-soft); border-color:color-mix(in srgb, var(--primary) 28%, transparent);}
+  main{max-width:1120px; margin:0 auto; padding:26px 16px 90px;}
   .card-h{display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; margin-bottom:16px;}
-  .card h2{margin:0; font-size:1.15rem; font-weight:600; display:flex; align-items:center; gap:10px;}
-  .paso{flex:none; display:inline-grid; place-items:center; width:30px; height:30px; border-radius:50%; background:var(--primary); color:var(--on-primary); font-size:.9rem; font-weight:600;}
+  .card h2{margin:0; font-size:1.2rem; font-weight:600; display:flex; align-items:center; gap:10px; letter-spacing:-.015em;}
+  .paso{flex:none; display:inline-grid; place-items:center; width:30px; height:30px; border-radius:50%; background:linear-gradient(160deg, color-mix(in srgb, var(--primary) 82%, #fff), var(--primary)); color:var(--on-primary); font-size:.9rem; font-weight:600; box-shadow:0 2px 6px -2px rgba(15,45,36,.5);}
   .sub{margin:6px 0 0; color:var(--muted); font-size:.95rem; max-width:70ch;}
   .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:16px;}
   .span2, #boxEscuela{grid-column:span 2;}
@@ -27,14 +27,14 @@
   .codigo{display:flex; gap:8px;}
   .codigo input{max-width:170px; font-family:var(--mono); letter-spacing:.2em; font-weight:600; text-align:center;}
   .info{margin-top:12px; font-size:.92rem; color:var(--muted); min-height:1em;}
-  .barra-grupo{background:var(--primary-soft); border-left:4px solid var(--primary); border-radius:var(--radius-sm); padding:12px 16px; margin-bottom:14px; font-size:.98rem;}
+  .barra-grupo{background:var(--primary-soft); border:1px solid color-mix(in srgb, var(--primary) 22%, transparent); border-radius:12px; padding:13px 18px; margin-bottom:14px; font-size:.98rem;}
   .barra-grupo b{font-weight:600;}
 
   /* Tabla de notas */
-  .tablewrap{overflow-x:auto; -webkit-overflow-scrolling:touch; border:1px solid var(--border); border-radius:var(--radius-sm);}
+  .tablewrap{overflow-x:auto; -webkit-overflow-scrolling:touch; border:1px solid var(--border); border-radius:12px; box-shadow:var(--sombra);}
   table.notas{width:100%; border-collapse:collapse; font-size:.9rem; table-layout:fixed;}
   table.notas col.c-n{width:42px;} table.notas col.c-name{width:250px;} table.notas col.c-g{width:78px;} table.notas col.c-p{width:70px;}
-  table.notas thead th{background:var(--head); text-align:center; padding:10px 4px; border-bottom:1px solid var(--border); color:var(--muted);
+  table.notas thead th{background:var(--head); text-align:center; padding:12px 4px; border-bottom:1px solid var(--border); color:var(--muted);
     font-size:.74rem; font-weight:500; line-height:1.2; word-break:break-word; vertical-align:bottom;}
   table.notas thead th b{display:block; color:var(--text); font-size:.82rem; font-weight:700;}
   table.notas tbody td{padding:5px 4px; border-bottom:1px solid var(--line); text-align:center; vertical-align:middle; background:var(--card);}
@@ -45,9 +45,9 @@
   thead th.nombre-col{z-index:3; text-align:left; background:var(--head) !important;}
   .num-col{color:var(--muted); font-size:.8rem; font-family:var(--mono);}
   .gi, .qs{display:block; width:100%; height:42px; margin:0; padding:0 2px; text-align:center; text-align-last:center; font-family:var(--mono); font-size:1rem; font-variant-numeric:tabular-nums;
-    border:1.5px solid var(--border); border-radius:6px; background:var(--card); color:var(--text); -webkit-appearance:none; appearance:none; transition:border-color .15s ease, background .15s ease;}
+    border:1.5px solid var(--border); border-radius:8px; background:var(--campo); color:var(--text); -webkit-appearance:none; appearance:none; transition:border-color .15s ease, background .15s ease, box-shadow .15s ease;}
   .gi:hover, .qs:hover{border-color:var(--primary);}
-  .gi:focus, .qs:focus{outline:3px solid var(--primary-soft); outline-offset:0; border-color:var(--primary);}
+  .gi:focus, .qs:focus{outline:none; border-color:var(--primary); box-shadow:0 0 0 4px color-mix(in srgb, var(--primary) 18%, transparent);}
   .gi.mod, .qs.mod{border-color:var(--gold); box-shadow:inset 0 -3px 0 var(--gold);}
   .gi.baja, .rv.baja{color:var(--danger); font-weight:700;}
   .gi.baja{background:var(--danger-bg); border-color:var(--danger);}
@@ -75,28 +75,31 @@
 
   /* Barra de guardado: queda a la vista mientras se digita */
   .acciones{display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; position:sticky; bottom:0; z-index:5;
-    margin:18px -24px 0; padding:14px 24px calc(14px + env(safe-area-inset-bottom,0px)); background:var(--card); border-top:1px solid var(--border);
-    box-shadow:0 -8px 18px rgba(0,0,0,.06);}
-  @media (max-width:640px){ .acciones{margin:16px -16px 0; padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));} .acciones .btn{flex:1;} }
+    margin:18px -26px 0; padding:14px 26px calc(14px + env(safe-area-inset-bottom,0px)); background:color-mix(in srgb, var(--card) 92%, transparent); -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+    border-top:1px solid var(--border); box-shadow:0 -10px 24px -14px rgba(15,45,36,.28);}
+  @media (max-width:640px){ .acciones{margin:16px -18px 0; padding:12px 18px calc(12px + env(safe-area-inset-bottom,0px));} .acciones .btn{flex:1;} }
   .fila{display:flex; gap:8px; flex-wrap:wrap; align-items:center;}
   .stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:12px; margin:18px 0;}
-  .stat{background:var(--head); border:1px solid var(--border); border-left:4px solid var(--primary); border-radius:var(--radius-sm); padding:14px 16px;}
-  .stat b{display:block; font-family:var(--mono); font-size:1.7rem; font-weight:600; line-height:1.15;}
+  .stat{position:relative; background:var(--card); border:1px solid var(--border); border-radius:14px; padding:16px 18px 14px; box-shadow:var(--sombra); overflow:hidden;}
+  .stat::before{content:""; position:absolute; left:0; right:0; top:0; height:4px; background:var(--primary);}
+  .stat b{display:block; font-family:var(--mono); font-size:1.85rem; font-weight:600; line-height:1.15; letter-spacing:-.02em; margin-top:2px;}
   .stat span{font-size:.9rem; color:var(--muted);}
-  .stat.clic{cursor:pointer; transition:border-color .15s ease;} .stat.clic:hover{border-color:var(--gold);}
-  .stat.alerta{border-left-color:var(--gold);} .stat.alerta b{color:var(--warn);}
+  .stat.clic{cursor:pointer; transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;} .stat.clic:hover{border-color:var(--gold); transform:translateY(-2px); box-shadow:var(--sombra-lg);}
+  .stat.alerta::before{background:var(--gold);} .stat.alerta b{color:var(--warn);}
   .empty{padding:32px 12px; text-align:center; color:var(--muted); font-size:.98rem;}
   .spin{display:inline-block; width:14px; height:14px; border:2px solid var(--border); border-top-color:var(--primary); border-radius:50%;
     animation:g .7s linear infinite; vertical-align:-2px; margin-right:8px;}
   @keyframes g{to{transform:rotate(360deg)}}
-  .lista{overflow-x:auto; border:1px solid var(--border); border-radius:var(--radius-sm); margin-top:12px;}
+  .lista{overflow-x:auto; border:1px solid var(--border); border-radius:12px; margin-top:12px; box-shadow:var(--sombra);}
   .lista table{width:100%; border-collapse:collapse; font-size:.92rem;}
-  .lista th{background:var(--head); text-align:left; padding:11px 12px; border-bottom:1px solid var(--border); color:var(--muted); font-size:.85rem; font-weight:600; white-space:nowrap;}
-  .lista td{padding:12px; border-bottom:1px solid var(--line); vertical-align:middle;}
+  .lista th{background:var(--head); text-align:left; padding:12px 14px; border-bottom:1px solid var(--border); color:var(--muted); font-size:.85rem; font-weight:600; white-space:nowrap;}
+  .lista td{padding:13px 14px; border-bottom:1px solid var(--line); vertical-align:middle;}
+  .lista tbody tr:last-child td{border-bottom:none;}
   .lista tr.clic{cursor:pointer;} .lista tr.clic:hover td{background:var(--primary-soft);}
-  .bar{height:8px; background:var(--line); border-radius:4px; overflow:hidden; min-width:100px;}
-  .bar i{display:block; height:100%; background:var(--primary); border-radius:4px;}
-  .chip{font-size:.8rem; font-weight:600; padding:3px 10px; border-radius:999px; white-space:nowrap; border:1px solid;}
+  .bar{height:10px; background:var(--line); border-radius:999px; overflow:hidden; min-width:100px;}
+  .bar i{display:block; height:100%; background:linear-gradient(90deg, var(--primary), color-mix(in srgb, var(--primary) 72%, #fff)); border-radius:999px;}
+  #avisoAvance{margin-bottom:16px;} #avisoAvance:empty{margin:0;}
+  .chip{font-size:.8rem; font-weight:600; padding:3px 11px; border-radius:999px; white-space:nowrap; border:1px solid;}
   .chip.ok{color:var(--ok); background:var(--ok-bg); border-color:transparent;}
   .chip.pend{color:var(--muted); border-color:var(--border);}
   .check{display:flex; align-items:center; gap:8px; font-size:.95rem; color:var(--muted); font-weight:500; margin:0;}
@@ -111,9 +114,25 @@
   .chip.gris{color:var(--muted); background:var(--line); border-color:transparent;}
   .chip.warn{color:var(--warn); background:var(--warn-bg); border-color:transparent;}
   .sub-h{margin:18px 0 6px; font-size:1rem; font-weight:600;}
+  .corte.warn{background:var(--warn-bg); color:var(--warn);} .corte.err{background:var(--danger-bg); color:var(--danger);}
+  details.msg summary{cursor:pointer;} details.msg table{margin-top:10px; background:var(--card); color:var(--text); border-radius:var(--radius-sm);} details.msg th, details.msg td{padding:8px 10px; text-align:left;}
   .agregar{margin-top:18px; border-top:1px solid var(--line); padding-top:16px;}
-  .form-agregar{margin-top:12px; border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px; background:var(--head);}
+  .form-agregar{margin-top:12px; border:1px solid var(--border); border-radius:12px; padding:18px; background:var(--head);}
   .form-agregar .grid{grid-template-columns:repeat(auto-fit,minmax(170px,1fr));}
+  /* Herramientas del panel (permisos, claves, matrícula, listas y notas del grupo): se abren en una ventana encima, una a la vez */
+  #matriculaCard, #clavesCard, #permisosCard, #agregadosCard, #retiradosCard, #detalleCard{position:fixed; z-index:50; left:50%; top:50%; transform:translate(-50%,-50%);
+    width:min(1040px, calc(100vw - 24px)); max-height:calc(100vh - 32px); overflow:auto; margin:0; padding-top:30px; box-shadow:var(--sombra-lg); overscroll-behavior:contain;}
+  #matriculaCard, #clavesCard, #permisosCard{width:min(780px, calc(100vw - 24px));}
+  #matriculaCard .card-h, #clavesCard .card-h, #permisosCard .card-h, #agregadosCard .card-h, #retiradosCard .card-h, #detalleCard .card-h{padding-right:48px;}
+  #btnCerrarMatricula, #btnCerrarClaves, #btnCerrarPermisos, #btnCerrarAg, #btnCerrarRet{display:none;}
+  #fondoModal{position:fixed; inset:0; z-index:40; background:rgba(6,18,14,.58); -webkit-backdrop-filter:blur(3px); backdrop-filter:blur(3px);}
+  .cerrar-x{position:sticky; float:right; top:0; z-index:3; width:40px; height:40px; margin:-14px -14px 0 8px; border-radius:50%; border:1px solid var(--border); background:var(--card); color:var(--text);
+    font-size:1.05rem; line-height:1; cursor:pointer; box-shadow:var(--sombra); transition:background .15s ease, border-color .15s ease;}
+  .cerrar-x:hover{background:var(--head); border-color:var(--primary);}
+  @media (max-width:640px){
+    #matriculaCard, #clavesCard, #permisosCard, #agregadosCard, #retiradosCard, #detalleCard{width:calc(100vw - 16px); max-height:calc(100vh - 16px); padding:22px 16px 16px;}
+  }
+  @media (max-width:640px){ nav.tabs .wrap{gap:4px; padding:8px;} .tab{flex:1; padding:6px 8px; border-radius:16px; font-size:.9rem; line-height:1.2; min-height:44px;} }
 </style>
 </head>
 <body>
@@ -123,7 +142,7 @@
       <small>Ministerio de Educación · Delegación Municipal El Cuá · <a href="index.html" style="color:inherit">← Inicio</a></small>
       <h1>Registro de Calificaciones</h1>
     </div>
-    <div class="corte" id="corteBadge">Cargando…</div>
+    <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center"><div class="corte" id="corteBadge">Cargando…</div><div class="corte" id="limiteBadge" hidden></div></div>
   </div>
 </div>
 <nav class="tabs">
@@ -132,6 +151,8 @@
     <button class="tab" data-vista="direccion">Dirección y seguimiento</button>
   </div>
 </nav>
+<div id="fondoModal" hidden></div>
+<div class="wrap"><div id="redAviso" class="msg warn" hidden style="position:sticky; top:8px; z-index:30"></div></div>
 
 <main>
   <!-- ================= DOCENTE ================= -->
@@ -249,6 +270,7 @@
           <div><label for="fEscuela">Escuela</label><select id="fEscuela"></select></div>
         </div>
         <div class="stats" id="stats"></div>
+        <div id="avisoAvance"></div>
         <div class="fila">
           <button class="btn" id="btnPadron">Descargar notas (Excel)</button>
           <label class="check"><input type="checkbox" id="chkPendientes"> Incluir grupos pendientes en blanco</label>
@@ -286,6 +308,14 @@
           <div style="align-self:flex-end"><button class="btn" id="btnActivar">Activar este periodo</button></div>
         </div>
         <div id="periodoMsg"></div>
+        <h3 class="sub-h">Fecha límite de digitación</h3>
+        <p class="muted">Se aplica al corte y año elegidos arriba. Los docentes la ven en la parte superior de su página y los directores en su avance.</p>
+        <div class="fila">
+          <div><label for="pLimite">Fecha límite</label><input type="date" id="pLimite"></div>
+          <div style="align-self:flex-end"><button class="btn" id="btnLimite">Guardar fecha</button></div>
+          <div style="align-self:flex-end"><button class="btn sec" id="btnQuitarLimite">Quitar fecha</button></div>
+        </div>
+        <div id="limiteMsg"></div>
         <h3 class="sub-h">Quién puede registrar notas</h3>
         <div class="fila"><button class="btn sec sm" id="btnAbrirTodos">Permitir a todos los NER</button><button class="btn sec sm" id="btnBloquearTodos">Bloquear a todos los NER</button></div>
         <div class="lista" id="listaPermisos"></div>
@@ -366,9 +396,9 @@ async function api(action, payload, intentos){
       body: JSON.stringify(Object.assign({action}, payload || {}))});
   }catch(e){
     if (intentos > 0){ await new Promise(r => setTimeout(r, 1200)); return api(action, payload, intentos - 1); }
-    throw new Error('Sin conexión a internet o el servidor no responde.');
+    const er = new Error('Sin conexión a internet o el servidor no responde.'); er.red = true; throw er;
   }
-  const data = await res.json();
+  const data = await res.json().catch(() => { const er = new Error('El servidor no respondió bien. Intente de nuevo en un momento.'); er.red = true; throw er; });
   if (data && data.error) throw new Error(data.error);
   return data;
 }
@@ -613,9 +643,25 @@ const codigoDe = nuc => codigos()[nuc] || '';
 el('docente').value = LS.get('rdc_docente') || '';
 el('docente').addEventListener('change', () => LS.set('rdc_docente', el('docente').value.trim()));
 
+function diasHasta(f){
+  const h = new Date(); h.setMinutes(h.getMinutes() - h.getTimezoneOffset());
+  return Math.round((new Date(f + 'T12:00:00') - new Date(h.toISOString().slice(0, 10) + 'T12:00:00')) / 86400000);
+}
+function plazo(f){   // fecha límite -> texto y color; null si no hay
+  if (!f) return null;
+  const d = diasHasta(f);
+  return {fecha:f.split('-').reverse().join('/'), dias:d, cls: d < 0 ? 'err' : d <= 3 ? 'warn' : '',
+    txt: d < 0 ? `venció hace ${-d} día${d === -1 ? '' : 's'}` : d === 0 ? 'vence hoy' : d === 1 ? 'vence mañana' : `quedan ${d} días`};
+}
+function mostrarLimite(f){
+  const b = el('limiteBadge'), p = plazo(f);
+  b.hidden = !p; b.className = 'corte' + (p && p.cls ? ' ' + p.cls : '');
+  if (p) b.textContent = `Fecha límite ${p.fecha} · ${p.txt}`;
+}
 function aplicarInit(d){
   D.v = d.v; D.corte = d.corte; D.anio = d.anio; D.centros = d.centros || []; D.causas = d.causas || [];
   el('corteBadge').textContent = `${D.corte} Corte · ${D.anio}`;
+  mostrarLimite(d.limite);
   el('subtitulo').textContent = `Digitación del ${D.corte} corte (${['I','II'].indexOf(D.corte) >= 0 ? 'I' : 'II'} semestre). Seleccione su núcleo, escriba el código de acceso del NER y elija el grupo.`;
   const previo = nucleoSel.value || (LS.get('rdc_ult') || {}).nucleo || '';
   const nucleos = [...new Set(D.centros.map(c => c.u).filter(Boolean))].sort();
@@ -624,12 +670,14 @@ function aplicarInit(d){
 }
 
 async function init(){
+  mostrarCola(); reenviarCola();   // notas que quedaron pendientes por mala conexión
   const cache = LS.get('rdc_init');
   if (cache) aplicarInit(cache);
   else el('loadmsg').innerHTML = spin('Conectando con el servidor…');
   try{
     const d = await api('init');
     LS.set('rdc_init', d);
+    mostrarLimite(d.limite);
     if (!cache || cache.v !== d.v || cache.corte !== d.corte || (cache.centros || []).length !== d.centros.length) aplicarInit(d);
     if (!cache) el('loadmsg').textContent = '';
   }catch(e){
@@ -988,6 +1036,8 @@ el('btnGuardar').addEventListener('click', async () => {
   if (!pend){ saveMsg.innerHTML = '<div class="msg ok">No hay cambios pendientes por guardar.</div>'; return; }
   LS.set('rdc_docente', docente);
   const enviados = JSON.parse(JSON.stringify(D.tocados));
+  const envio = {corte:D.corte, id:g.id, docente, nucleo:nucleoSel.value, texto:grupoTxt(g),
+    grupo:{estab:D.esc.estab, programa:g.programa, modalidad:g.modalidad, nivel:g.nivel, seccion:g.seccion, turno:g.turno}, materias:D.plan.materias.map(x => x.code)};
   D.guardando = true; btn.disabled = true; el('statusText').innerHTML = spin('Guardando…'); saveMsg.innerHTML = '';
   try{
     const r = await api('guardar', {corte:D.corte, docente, codigo:codigoDe(nucleoSel.value),
@@ -996,11 +1046,8 @@ el('btnGuardar').addEventListener('click', async () => {
     const doc = r.doc;
     D.guardados[g.id] = {id:g.id, docente:doc.docente, actualizado:doc.actualizado};
     // lo escrito mientras se guardaba queda pendiente
-    Object.keys(enviados).forEach(cp => Object.keys(enviados[cp]).forEach(c => {
-      if (D.tocados[cp] && D.tocados[cp][c] === enviados[cp][c]) delete D.tocados[cp][c];
-    }));
-    Object.keys(D.tocados).forEach(cp => { if (!Object.keys(D.tocados[cp]).length) delete D.tocados[cp]; });
-    if (contarTocados(D.tocados)) LS.set(`rdc_borrador_${D.corte}_${g.id}`, D.tocados); else LS.del(`rdc_borrador_${D.corte}_${g.id}`);
+    descontar(D.tocados, enviados);
+    if (contarTocados(D.tocados)) LS.set(claveBorrador(D.corte, g.id), D.tocados); else { LS.del(claveBorrador(D.corte, g.id)); quitarCola(claveBorrador(D.corte, g.id)); }
     if (D.grupo === g){
       aplicarDoc(doc); pintarTabla();
       saveMsg.innerHTML = `<div class="msg ok">Notas guardadas correctamente (${pend} casilla${pend === 1 ? '' : 's'}). Puede seguir editando cuando lo necesite. Los estudiantes con notas de 59 o menos se reportan solos a Reprobados.</div>`;
@@ -1009,9 +1056,76 @@ el('btnGuardar').addEventListener('click', async () => {
   }catch(e){
     el('statusText').textContent = '';
     if (/código de acceso/i.test(e.message)) codigoRechazado();
-    else saveMsg.innerHTML = `<div class="msg err">No se guardó: ${esc(e.message)}. Sus cambios siguen en este equipo; intente de nuevo cuando tenga conexión.</div>`;
+    else if (e.red){   // sin internet: queda en este equipo y se reenvía solo
+      if (D.grupo === g) LS.set(claveBorrador(D.corte, g.id), D.tocados);
+      encolar(envio); mostrarCola();
+      if (D.grupo === g) actualizarEstado();
+      saveMsg.innerHTML = `<div class="msg warn">No hay conexión. Sus ${pend} cambio${pend === 1 ? '' : 's'} quedaron guardados en este equipo y se enviarán solos cuando vuelva internet. Puede seguir digitando.</div>`;
+    }
+    else saveMsg.innerHTML = `<div class="msg err">No se guardó: ${esc(e.message)}. Sus cambios siguen en este equipo; intente de nuevo.</div>`;
   }finally{ D.guardando = false; btn.disabled = false; }
 });
+
+// ---- Cola de envío: si el guardado falla por mala conexión, las notas se reenvían solas ----
+// El borrador (rdc_borrador_*) ya vive en este equipo; la cola solo recuerda a qué grupo pertenece y con qué datos enviarlo.
+const COLA = 'rdc_cola';
+const cola = () => LS.get(COLA) || {};
+const claveBorrador = (corte, id) => `rdc_borrador_${corte}_${id}`;
+function quitarCola(clave){ const q = cola(); if (q[clave]){ delete q[clave]; LS.set(COLA, q); } }
+function encolar(m){ const q = cola(); q[claveBorrador(m.corte, m.id)] = m; LS.set(COLA, q); }
+function descontar(dest, enviados){   // quita de dest lo que ya se envió igual (lo editado mientras tanto se conserva)
+  Object.keys(enviados).forEach(cp => Object.keys(enviados[cp]).forEach(c => { if (dest[cp] && dest[cp][c] === enviados[cp][c]) delete dest[cp][c]; }));
+  Object.keys(dest).forEach(cp => { if (!Object.keys(dest[cp]).length) delete dest[cp]; });
+}
+function avisoRed(html, cls, ms){
+  const a = el('redAviso');
+  clearTimeout(avisoRed.t);
+  a.hidden = !html; a.className = 'msg ' + (cls || 'ok'); a.innerHTML = html;
+  if (ms) avisoRed.t = setTimeout(mostrarCola, ms);
+}
+function mostrarCola(){
+  const n = Object.keys(cola()).length;
+  avisoRed(n ? `Hay notas de ${n} grupo${n === 1 ? '' : 's'} guardadas en este equipo que todavía no llegan al servidor. Se enviarán solas cuando haya internet.` : '', 'warn');
+}
+let reenviando = false;
+async function reenviarCola(){
+  if (reenviando) return;
+  reenviando = true;
+  let enviadas = 0, fallo = false;
+  try{
+    for (const [clave, m] of Object.entries(cola())){
+      const abierto = !!D.grupo && D.corte === m.corte && D.grupo.id === m.id;
+      if (abierto && D.guardando) continue;
+      if (abierto) LS.set(clave, D.tocados);
+      const tocados = JSON.parse(JSON.stringify(LS.get(clave) || {})), n = contarTocados(tocados);
+      if (!n){ quitarCola(clave); continue; }
+      if (abierto) D.guardando = true;
+      try{
+        const r = await api('guardar', {corte:m.corte, docente:m.docente, codigo:codigoDe(m.nucleo), grupo:m.grupo, materias:m.materias, cambios:tocados}, 0);
+        const resto = abierto ? D.tocados : (LS.get(clave) || {});
+        descontar(resto, tocados);
+        if (contarTocados(resto)) LS.set(clave, resto); else { LS.del(clave); quitarCola(clave); }
+        enviadas += n;
+        if (abierto){
+          D.guardados[m.id] = {id:m.id, docente:r.doc.docente, actualizado:r.doc.actualizado};
+          aplicarDoc(r.doc); pintarTabla(); llenarGrupos();
+          el('saveMsg').innerHTML = '<div class="msg ok">Se enviaron las notas que estaban pendientes por falta de conexión.</div>';
+        }
+      }catch(e){
+        if (e.red) break;   // sigue sin internet: se intenta más tarde
+        fallo = true; quitarCola(clave);
+        avisoRed(`No se pudieron enviar las notas de ${esc(m.texto)}: ${esc(e.message)} Siguen guardadas en este equipo: abra el grupo y presione Guardar notas.`, 'err');
+        if (/código de acceso/i.test(e.message) && nucleoSel.value === m.nucleo) codigoRechazado();
+        break;
+      }finally{ if (abierto) D.guardando = false; }
+    }
+  }finally{ reenviando = false; }
+  if (fallo) return;
+  if (enviadas) avisoRed(`Se enviaron ${enviadas} nota${enviadas === 1 ? '' : 's'} que estaban pendientes ✓`, 'ok', 8000);
+  else mostrarCola();
+}
+window.addEventListener('online', reenviarCola);
+setInterval(() => { if (Object.keys(cola()).length) reenviarCola(); }, 30000);
 
 window.addEventListener('beforeunload', e => {
   if (D.grupo && contarTocados(D.tocados)){ LS.set(`rdc_borrador_${D.corte}_${D.grupo.id}`, D.tocados); e.preventDefault(); e.returnValue = ''; }
@@ -1118,6 +1232,7 @@ function renderPanel(){
     <div class="stat clic" id="statRet" title="Ver la lista"><b>${retTot}</b><span>Estudiantes retirados${retTot ? ' · ver lista' : ''}</span></div>`;
   el('statRet').onclick = () => { if (retTot) verRetirados(); };
   el('statAg').onclick = () => { if (agTot) verAgregados(); };
+  renderAviso(gs, est);
 
   if (!est){
     const porEsc = {};
@@ -1140,6 +1255,60 @@ function renderPanel(){
           <td>${m ? `<button class="btn sec sm" data-ver="${esc(g.id)}">Ver notas</button>` : ''}</td></tr>`; }).join('') + '</tbody></table>';
   }
 }
+// Aviso de avance: fecha límite y escuelas que todavía no terminan de digitar (dentro del alcance de quien entra)
+function pendientesPorEscuela(gs){
+  const por = {};
+  gs.forEach(g => {
+    const m = R.guard[g.id], activos = Math.max(0, g.n - (R.ret[g.id] || 0)), con = m ? m.conNotas : 0;
+    const o = por[g.estab] || (por[g.estab] = {e:g.estab, faltan:0, sinNotas:0});
+    o.faltan += Math.max(0, activos - con);
+    if (activos && !con) o.sinNotas++;
+  });
+  return Object.values(por).filter(o => o.faltan > 0).map(o => Object.assign(o, {c:R.centros[o.e]}))
+    .sort((a, b) => a.c.u.localeCompare(b.c.u) || b.faltan - a.faltan);
+}
+const plural = (n, uno, varios) => `${n} ${n === 1 ? uno : varios}`;
+function textoPendientes(pend, p, nom){
+  let t = `*Pendientes de digitación · ${nom}*\n`;
+  if (p) t += `Fecha límite: ${p.fecha} (${p.txt})\n`;
+  let ner = null;
+  pend.forEach(o => {
+    if (o.c.u !== ner){ ner = o.c.u; t += `\n*${ner}*\n`; }
+    t += `• ${o.c.n}: faltan ${plural(o.faltan, 'estudiante', 'estudiantes')}${o.sinNotas ? ` (${plural(o.sinNotas, 'grupo', 'grupos')} sin notas)` : ''}\n`;
+  });
+  return t.trim();
+}
+async function copiarTexto(t){
+  try{ await navigator.clipboard.writeText(t); return true; }
+  catch(e){ const a = document.createElement('textarea'); a.value = t; document.body.appendChild(a); a.select(); const ok = document.execCommand('copy'); a.remove(); return ok; }
+}
+function renderAviso(gs, est){
+  const p = plazo(R.data.limite), nom = `${R.corte} corte ${R.anio}`;
+  const pend = est ? [] : pendientesPorEscuela(gs), escuelas = new Set(gs.map(g => g.estab)).size;
+  let h = p ? `<div class="msg ${p.cls || 'ok'}"><b>Fecha límite del ${esc(nom)}: ${p.fecha}</b> · ${p.txt}.</div>` : '';
+  if (!est && escuelas){
+    if (!pend.length) h += `<div class="msg ok">Todas las escuelas (${escuelas}) terminaron de digitar el ${esc(nom)}.</div>`;
+    else {
+      const faltan = pend.reduce((a, o) => a + o.faltan, 0), multi = !el('fNucleo').value;
+      h += `<details class="msg ${p && p.dias < 0 ? 'err' : 'warn'}"><summary><b>Faltan ${pend.length} de ${escuelas} escuelas</b> por terminar de digitar · ${faltan.toLocaleString('es-NI')} estudiantes sin notas</summary>
+        <table><thead><tr>${multi ? '<th>Núcleo</th>' : ''}<th>Escuela</th><th>Estudiantes sin notas</th><th>Grupos sin ninguna nota</th></tr></thead><tbody>` +
+        pend.map(o => `<tr class="clic" data-e="${esc(o.e)}">${multi ? `<td>${esc(o.c.u)}</td>` : ''}<td><b>${esc(o.c.n)}</b></td><td>${o.faltan}</td><td>${o.sinNotas || ''}</td></tr>`).join('') +
+        `</tbody></table><div class="fila" style="margin-top:10px"><button class="btn sec sm" id="btnCopiarPend">Copiar lista para WhatsApp</button></div></details>`;
+    }
+  }
+  el('avisoAvance').innerHTML = h;
+  const b = el('btnCopiarPend');
+  if (b) b.onclick = async e => {
+    e.preventDefault();
+    b.textContent = (await copiarTexto(textoPendientes(pend, p, nom))) ? 'Copiado ✓' : 'No se pudo copiar';
+    setTimeout(() => { if (b.isConnected) b.textContent = 'Copiar lista para WhatsApp'; }, 3000);
+  };
+}
+el('avisoAvance').addEventListener('click', e => {
+  const tr = e.target.closest('tr.clic');
+  if (tr){ el('fEscuela').value = tr.dataset.e; renderPanel(); }
+});
+
 el('listaPanel').addEventListener('click', e => {
   const tr = e.target.closest('tr.clic');
   if (tr){ el('fEscuela').value = tr.dataset.e; renderPanel(); return; }
@@ -1229,6 +1398,7 @@ async function verPermisos(msg){
   try{
     const r = await api('permisos', cred());
     el('pCorte').value = r.corte; el('pAnio').value = r.anio;
+    R.limites = r.limites || {}; limiteDePeriodo();
     el('periodoActual').textContent = `Ahora los docentes registran notas del ${r.corte} corte ${r.anio}.`;
     const abiertos = r.lista.filter(n => n.acceso).length;
     el('listaPermisos').innerHTML = (msg || '') + `<table><thead><tr><th>NER</th><th>Registro de notas</th><th></th></tr></thead><tbody>` +
@@ -1239,6 +1409,23 @@ async function verPermisos(msg){
 }
 el('btnPermisos').addEventListener('click', () => verPermisos());
 el('btnCerrarPermisos').addEventListener('click', () => el('permisosCard').hidden = true);
+const clavePeriodo = (c, a) => a === '2026' ? c : `${a}-${c}`;
+function limiteDePeriodo(){ el('pLimite').value = (R.limites || {})[clavePeriodo(el('pCorte').value, el('pAnio').value)] || ''; el('limiteMsg').innerHTML = ''; }
+el('pCorte').addEventListener('change', limiteDePeriodo);
+el('pAnio').addEventListener('change', limiteDePeriodo);
+async function guardarLimite(fecha){
+  const corte = el('pCorte').value, anio = el('pAnio').value;
+  try{
+    await api('fijarLimite', Object.assign(cred(), {corte, anio, fecha}), 0);
+    R.limites = R.limites || {};
+    if (fecha) R.limites[clavePeriodo(corte, anio)] = fecha; else delete R.limites[clavePeriodo(corte, anio)];
+    el('pLimite').value = fecha;
+    el('limiteMsg').innerHTML = `<div class="msg ok">${fecha ? `Fecha límite del ${esc(corte)} corte ${esc(anio)}: ${fecha.split('-').reverse().join('/')}.` : 'Se quitó la fecha límite.'}</div>`;
+    if (corte === R.corte && anio === R.anio) cargarResumen();
+  }catch(err){ el('limiteMsg').innerHTML = `<div class="msg err">${esc(err.message)}</div>`; }
+}
+el('btnLimite').addEventListener('click', () => { if (!el('pLimite').value) el('limiteMsg').innerHTML = '<div class="msg err">Elija una fecha.</div>'; else guardarLimite(el('pLimite').value); });
+el('btnQuitarLimite').addEventListener('click', () => guardarLimite(''));
 function confirmar2(b, textoConfirmar){   // primer clic pide confirmar; el segundo ejecuta
   if (b.dataset.ok){ delete b.dataset.ok; return true; }
   const orig = b.textContent; b.dataset.ok = '1'; b.textContent = textoConfirmar;
@@ -1437,6 +1624,25 @@ el('btnSubirMatricula').addEventListener('click', async e => {
     b.disabled = false; ['mArchivo','mAnio','mCorte'].forEach(i => el(i).disabled = false);
   }
 });
+
+// ---- Ventanas del panel: una sola abierta a la vez, con fondo, botón ✕, clic afuera y Escape ----
+const MODALES = ['matriculaCard', 'clavesCard', 'permisosCard', 'agregadosCard', 'retiradosCard', 'detalleCard'];
+function cerrarModales(){ MODALES.forEach(id => el(id).hidden = true); }
+MODALES.forEach(id => {
+  const card = el(id);
+  card.setAttribute('role', 'dialog'); card.setAttribute('aria-modal', 'true');
+  const x = document.createElement('button');
+  x.type = 'button'; x.className = 'cerrar-x'; x.title = 'Cerrar'; x.setAttribute('aria-label', 'Cerrar'); x.textContent = '✕';
+  x.addEventListener('click', () => card.hidden = true);
+  card.insertBefore(x, card.firstChild);
+  new MutationObserver(() => {
+    if (!card.hidden){ MODALES.forEach(o => { if (o !== id) el(o).hidden = true; }); card.scrollTop = 0; }
+    const abierta = MODALES.some(o => !el(o).hidden);
+    el('fondoModal').hidden = !abierta; document.body.style.overflow = abierta ? 'hidden' : '';
+  }).observe(card, {attributes:true, attributeFilter:['hidden']});
+});
+el('fondoModal').addEventListener('click', cerrarModales);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarModales(); });
 
 // ============================================================
 //  EXPORTACIONES
