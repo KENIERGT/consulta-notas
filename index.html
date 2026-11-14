@@ -1,74 +1,36 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Registro de Notas · El Cuá</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="tema.css">
-<style>
-  main{max-width:880px; margin:0 auto; padding:44px 16px 70px;}
-  h2.pregunta{margin:0 0 8px; font-size:2rem; font-weight:600; letter-spacing:-.025em;}
-  .intro{margin:0 0 30px; color:var(--muted); max-width:60ch; font-size:1.05rem;}
-  .opciones{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
-  a.op{position:relative; overflow:hidden; display:flex; flex-direction:column; gap:14px; text-decoration:none; color:var(--text); background:var(--card); border:1px solid var(--border);
-       border-radius:20px; padding:28px; box-shadow:var(--sombra); transition:border-color .2s ease, box-shadow .2s ease, transform .2s ease;}
-  a.op::before{content:""; position:absolute; left:0; right:0; top:0; height:5px; background:var(--primary);}
-  a.op::after{content:""; position:absolute; right:-60px; top:-60px; width:180px; height:180px; border-radius:50%; background:radial-gradient(circle, color-mix(in srgb, var(--primary) 14%, transparent), transparent 70%); pointer-events:none;}
-  a.op:hover{border-color:color-mix(in srgb, var(--primary) 55%, var(--border)); box-shadow:var(--sombra-lg); transform:translateY(-3px);}
-  a.op:active{transform:translateY(0);}
-  a.op.fisico::before{background:var(--gold);}
-  a.op.fisico::after{background:radial-gradient(circle, color-mix(in srgb, var(--gold) 20%, transparent), transparent 70%);}
-  .icono{width:58px; height:58px; border-radius:16px; display:grid; place-items:center; background:var(--primary-soft); color:var(--primary); border:1px solid color-mix(in srgb, var(--primary) 20%, transparent);}
-  .fisico .icono{background:var(--warn-bg); color:var(--warn);}
-  .icono svg{width:28px; height:28px;}
-  a.op h3{margin:0; font-size:1.6rem; font-weight:600; letter-spacing:-.02em;}
-  a.op p{margin:0; color:var(--muted); font-size:1rem; line-height:1.5; flex:1;}
-  a.op .ir{display:inline-flex; align-items:center; justify-content:center; min-height:var(--toque); padding:10px 18px; border-radius:var(--radius-sm); background:var(--primary); color:var(--on-primary); font-weight:600; box-shadow:0 1px 2px rgba(15,45,36,.18), inset 0 1px 0 rgba(255,255,255,.14); transition:background .15s ease;}
-  a.op:hover .ir{background:var(--primary-dark);}
-  a.op.fisico .ir{background:var(--card); color:var(--text); border:1.5px solid var(--border);}
-  a.op.fisico:hover .ir{border-color:var(--primary);}
-  .ayuda{margin-top:24px; padding:18px 22px; border-radius:16px; background:var(--primary-soft); border:1px solid color-mix(in srgb, var(--primary) 22%, transparent);}
-  .ayuda b{display:block; margin-bottom:4px;}
-  .ayuda p{margin:0; color:var(--muted); font-size:.98rem;}
-  @media (max-width:640px){ .opciones{grid-template-columns:1fr;} h2.pregunta{font-size:1.35rem;} }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bachillerato Comunitario de JYA</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header class="banda">
-  <div class="wrap">
-    <div>
-      <small>Ministerio de Educación · Delegación Municipal El Cuá</small>
-      <h1>Registro de notas</h1>
-    </div>
-  </div>
-</header>
+  <div class="main-container fade-in">
+    <header>
+      <div class="logos">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWrQx4Wm88UkrwZSWK2QLKWuCjsNvFm2cWrQ&s" alt="Logo Institucional" class="logo-mined">
+        <img src="logo.png/logo1.png" alt="Logo Colegio" class="logo-colegio">
+      </div>
+      <h1>Bachillerato Comunitario de JYA</h1> 
+      <h3>Instituto Nacional Publico Rosa Montoya Flores</h3>
+    </header>
 
-<main>
-  <h2 class="pregunta">¿Cómo trabaja su núcleo el corte evaluativo?</h2>
-  <p class="intro">Elija una opción. Los retiros y reprobados de las dos opciones se guardan juntos y salen en los mismos reportes por núcleo.</p>
-
-  <div class="opciones">
-    <a class="op digital" href="REGISTRO_NOTAS.html">
-      <span class="icono"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M7 9h4M7 12h7"/></svg></span>
-      <h3>Digital</h3>
-      <p>Los docentes digitan las notas del corte en el sistema. Para retirar a un estudiante basta con tocar “Retirar”, y los reprobados se calculan solos.</p>
-      <span class="ir">Ir a calificaciones</span>
-    </a>
-    <a class="op fisico" href="RETIROS_REPROBADOS.html">
-      <span class="icono"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg></span>
-      <h3>Físico</h3>
-      <p>Para los núcleos que entregan las notas en papel. Registran aquí sus retiros y reprobados con el código de su núcleo.</p>
-      <span class="ir">Ir a retiros y reprobados</span>
-    </a>
+    <main>
+      <h1>🔍 Consulta de Notas</h1>
+      <div class="search-box">
+        <div class="input-group">
+          <input id="codigo" required type="text" autocomplete="off" class="input">
+          <label class="user-label">Ingrese Cédula</label>
+        </div>
+        <button onclick="buscarNotas()" class="btn">Buscar Notas</button>
+      </div>
+      <div id="resultado"></div>
+    </main>
   </div>
-
-  <div class="ayuda">
-    <b>¿No sabe cuál elegir?</b>
-    <p>Si sus docentes escriben las notas en este sistema, elija Digital. Si las entregan en físico a su director, elija Físico.</p>
-  </div>
-</main>
+<script src="main.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
 </body>
 </html>
